@@ -1,19 +1,19 @@
 /**
  * README
  *
- * Name: EXT101MI.UpdHead
- * Description: Update a record in FGDIBH
+ * Name: EXT101MI.AddHead
+ * Description: Add a record in FGDIBH
  * Date                         Changed By                    Description
  * 20250620                     a.ferre@hetic3.fr     		création
  */
-public class UpdHead extends ExtendM3Transaction {
+public class AddHead extends ExtendM3Transaction {
 	private final MIAPI mi
 	private final ProgramAPI program
 	private final DatabaseAPI database
 	private final UtilityAPI utility
 	private final MICallerAPI miCaller
 
-	public UpdHead(MIAPI mi, DatabaseAPI database, UtilityAPI utility, ProgramAPI program, MICallerAPI miCaller) {
+	public AddHead(MIAPI mi, DatabaseAPI database, UtilityAPI utility, ProgramAPI program, MICallerAPI miCaller) {
 		this.mi = mi
 		this.program = program
 		this.database = database
@@ -23,6 +23,7 @@ public class UpdHead extends ExtendM3Transaction {
 	}
 
 	public void main() {
+		
 		Integer cono = mi.in.get("CONO")
 		String  divi = (mi.inData.get("DIVI") == null) ? "" : mi.inData.get("DIVI").trim()
 		String  btab = (mi.inData.get("BTAB") == null) ? "" : mi.inData.get("BTAB").trim()
@@ -35,7 +36,7 @@ public class UpdHead extends ExtendM3Transaction {
 		String  rdrv = (mi.inData.get("RDRV") == null) ? "" : mi.inData.get("RDRV").trim()
 		Integer rdrt = mi.in.get("RDRT")
 		Integer rdsr = mi.in.get("RDSR")
-		Integer txid = mi.in.get("TXID")
+		
 
 
 		if(cono == null) {
@@ -64,50 +65,46 @@ public class UpdHead extends ExtendM3Transaction {
 			return
 		}
 
-
+		if(tx40.isBlank()) {
+			mi.error("Désignation est obligatoire")
+			return
+		}
+		
 		if(getParm(divi) == 0) {
 			mi.error("Le paramètre 210 du CAS900 doit être activé pour utilisé l'API")
 			return
 		}
 		
-		DBAction fgdibhRecord = database.table("FGDIBH").index("00").selection("BXCHNO").build()
+		DBAction fgdibhRecord = database.table("FGDIBH").index("00").build()
 		DBContainer fgdibhContainer = fgdibhRecord.createContainer()
 		fgdibhContainer.setInt("BXCONO", cono)
 		fgdibhContainer.setString("BXDIVI", divi)
 		fgdibhContainer.setString("BXBTAB", btab)
 		
-		boolean updatable = fgdibhRecord.readLock(fgdibhContainer, { LockedResult updateRecord ->
-			updateRecord.setString("BXTX40", tx40)
-			updateRecord.setString("BXTX15", tx15)
-			updateRecord.set("BXAETP", aetp)
-			updateRecord.setString("BXRDRI", rdri)
-			updateRecord.setString("BXRDUV", rduv)
-			updateRecord.set("BXRDUT", rdut)
-			updateRecord.setString("BXRDRV", rdrv)
-			updateRecord.set("BXRDRT", rdrt)
-			updateRecord.set("BXRDSR", rdsr)
-			updateRecord.set("BXTXID", txid)
-			updateRecord.set("BXRGDT", (Integer) utility.call("DateUtil", "currentDateY8AsInt"))
-			updateRecord.set("BXLMDT", (Integer) utility.call("DateUtil", "currentDateY8AsInt"))
-			updateRecord.set("BXCHID", program.getUser())
-			updateRecord.set("BXRGTM", (Integer) utility.call("DateUtil", "currentTimeAsInt"))
-			updateRecord.set("BXCHNO", 1)
-			int CHNO = updateRecord.getInt("BXCHNO")
-			if(CHNO== 999) {CHNO = 0}
-			CHNO++
-			updateRecord.set("BXLMDT", (Integer) utility.call("DateUtil", "currentDateY8AsInt"))
-			updateRecord.set("BXCHID", program.getUser())
-			updateRecord.setInt("BXCHNO", CHNO)
-			updateRecord.update()
-		})
-
-		if(!updatable)
+		if(!fgdibhRecord.read(fgdibhContainer)){
+			fgdibhContainer.setString("BXTX40", tx40)
+			fgdibhContainer.setString("BXTX15", tx15)
+			fgdibhContainer.set("BXAETP", aetp)
+			fgdibhContainer.setString("BXRDRI", rdri)
+			fgdibhContainer.setString("BXRDUV", rduv)
+			fgdibhContainer.set("BXRDUT", rdut)
+			fgdibhContainer.setString("BXRDRV", rdrv)
+			fgdibhContainer.set("BXRDRT", rdrt)
+			fgdibhContainer.set("BXRDSR", rdsr)
+			fgdibhContainer.set("BXRGDT", (Integer) utility.call("DateUtil", "currentDateY8AsInt"))
+			fgdibhContainer.set("BXLMDT", (Integer) utility.call("DateUtil", "currentDateY8AsInt"))
+			fgdibhContainer.set("BXCHID", program.getUser())
+			fgdibhContainer.set("BXRGTM", (Integer) utility.call("DateUtil", "currentTimeAsInt"))
+			fgdibhContainer.set("BXCHNO", 1)
+			fgdibhRecord.insert(fgdibhContainer)
+		}else
 		{
-			mi.error("L'enregistrement n'existe pas.")
+			mi.error("Enregistrement existe déjà.")
 			return
 		}
+		
+		
 	}
-
 
 	/**
 	 /**
@@ -127,9 +124,8 @@ public class UpdHead extends ExtendM3Transaction {
 			}
 			parm = response.PARM
 		});
-
-
+		
+		
 		return Character.getNumericValue(parm.charAt(88))
 	}
 }
-

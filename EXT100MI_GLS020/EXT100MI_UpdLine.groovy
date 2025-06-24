@@ -209,6 +209,7 @@ public class UpdLine extends ExtendM3Transaction {
 		
 
 		//Boucle pour vérifier les chevauchements
+		boolean error = false
 		DBAction faaccbRecordForCheck = database.table("FAACCB").index("00").selectAllFields().build()
 		DBContainer faaccbContainerForCheck = faaccbRecordForCheck.createContainer()
 		faaccbContainerForCheck.setInt("FBCONO", cono)
@@ -221,9 +222,7 @@ public class UpdLine extends ExtendM3Transaction {
 			logger.info(rgln.toString());
 			
 			if(!container.get("FBRGLN").toString().equals(rgln.toString())) {
-				logger.info("Test Adrien dans boucle IF");
-				logger.info(container.get("FBRGLN").toString());
-				logger.info(rgln.toString());
+
 				//FROM
 				fromRecordbfa1 = container.get("FBBFA1").toString()
 				fromRecordbfa2 = container.get("FBBFA2").toString()
@@ -392,12 +391,15 @@ public class UpdLine extends ExtendM3Transaction {
 						) {
 
 				}else {
-					mi.error("Chevauchement des valeurs avec une ligne précédente.")
-					return
+					error = true
 				}
 			}
 		})
 
+		if(error) {
+			mi.error("Chevauchement des valeurs avec une ligne précédente.")
+			return
+		}
 
 
 		if (nrc2 > 1) {
@@ -430,7 +432,7 @@ public class UpdLine extends ExtendM3Transaction {
 			return
 		}
 
-		DBAction faaccbRecord = database.table("FAACCB").index("00").build()
+		DBAction faaccbRecord = database.table("FAACCB").index("00").selection("BYCHNO").build()
 		DBContainer faaccbContainer = faaccbRecord.createContainer()
 		faaccbContainer.setInt("FBCONO", cono)
 		faaccbContainer.setString("FBDIVI", divi)
