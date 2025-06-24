@@ -45,15 +45,31 @@ public class DelHead extends ExtendM3Transaction {
 		faacchContainer.setString("FHDIVI", divi)
 		faacchContainer.setInt("FHRCNO", rcno)	
 		
-		boolean deleted = faacchRecord.readLock(faacchContainer, { LockedResult delRecoord ->
-			delRecoord.delete()
+		boolean deleted = false
+		boolean found = faacchRecord.readLock(faacchContainer, { LockedResult delRecoord ->
+			deleted = delRecoord.delete()
 		})
 
-		if(!deleted)
+		
+		if(!found)
 		{
 			mi.error("L'enregistrement n'existe pas.")
 			return
+		}else {
+			DBAction faaccbRecord = database.table("FAACCB").index("00").build()
+			DBContainer faaccbContainer = faaccbRecord.createContainer()
+			faaccbContainer.setInt("FBCONO", cono)
+			faaccbContainer.setString("FBDIVI", divi)
+			faaccbContainer.setInt("FBRCNO", rcno)
+			
+			faaccbRecord.readAll(faaccbContainer, 3, 10000,{ DBContainer container ->
+				faaccbRecord.readLock(container, { LockedResult lockedResult ->
+					lockedResult.delete()
+				})
+			})
+
 		}
+		
 
 	}
 }
