@@ -86,11 +86,7 @@ public class UpdHead extends ExtendM3Transaction {
 			updateRecord.setString("BXRDRV", rdrv)
 			updateRecord.set("BXRDRT", rdrt)
 			updateRecord.set("BXRDSR", rdsr)
-			updateRecord.set("BXRGDT", (Integer) utility.call("DateUtil", "currentDateY8AsInt"))
-			updateRecord.set("BXLMDT", (Integer) utility.call("DateUtil", "currentDateY8AsInt"))
-			updateRecord.set("BXCHID", program.getUser())
-			updateRecord.set("BXRGTM", (Integer) utility.call("DateUtil", "currentTimeAsInt"))
-			updateRecord.set("BXCHNO", 1)
+			
 			int CHNO = updateRecord.getInt("BXCHNO")
 			if(CHNO== 999) {CHNO = 0}
 			CHNO++

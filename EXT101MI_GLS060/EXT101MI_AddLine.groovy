@@ -431,6 +431,7 @@ public class AddLine extends ExtendM3Transaction {
 			mi.error("Enregistrement existe déjà.")
 			return
 		}
+
 	}
 
 	/**
