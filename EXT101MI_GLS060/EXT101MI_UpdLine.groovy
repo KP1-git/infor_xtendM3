@@ -209,7 +209,7 @@ public class UpdLine extends ExtendM3Transaction {
 
 
 		fgdibdRecordForCheck.readAll(fgdibdContainerForCheck, 3, 9999,{ DBContainer container ->
-			if(!container.get("BYBBLN").toString().equals(bbln.toString())) {
+			if(!container.get("BYBBLN").toString().equals(bbln.toString()) && !container.get("BYBTAB").equals(btab.toString())) {
 				//FROM
 				fromRecordbfa1 = container.get("BYBFA1").toString()
 				fromRecordbfa2 = container.get("BYBFA2").toString()

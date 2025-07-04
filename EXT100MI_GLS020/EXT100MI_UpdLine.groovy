@@ -214,14 +214,14 @@ public class UpdLine extends ExtendM3Transaction {
 		DBContainer faaccbContainerForCheck = faaccbRecordForCheck.createContainer()
 		faaccbContainerForCheck.setInt("FBCONO", cono)
 		faaccbContainerForCheck.setString("FBDIVI", divi)
-		faaccbContainerForCheck.setInt("FBRCNO", rcno)
+		//faaccbContainerForCheck.setInt("FBRCNO", rcno)
 
-		faaccbRecordForCheck.readAll(faaccbContainerForCheck, 3, 9999,{ DBContainer container ->
+		faaccbRecordForCheck.readAll(faaccbContainerForCheck, 2, 9999,{ DBContainer container ->
 			logger.info("Test Adrien dans boucle");
 			logger.info(container.get("FBRGLN").toString());
 			logger.info(rgln.toString());
 			
-			if(!container.get("FBRGLN").toString().equals(rgln.toString())) {
+			if(!container.get("FBRGLN").toString().equals(rgln.toString()) && !container.get("FBRCNO").toString().equals(rcno.toString())) {
 
 				//FROM
 				fromRecordbfa1 = container.get("FBBFA1").toString()

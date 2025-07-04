@@ -7,13 +7,13 @@
  * 20250623                     d.decosterd@hetic3.fr     		création
  */
 public class AddHead extends ExtendM3Transaction {
-	private final MIAPI mi;
+	private final MIAPI mi
 	private final DatabaseAPI database
 	private final ProgramAPI program
 	private final UtilityAPI utility
 
 	public AddHead(MIAPI mi, DatabaseAPI database, ProgramAPI program, UtilityAPI utility) {
-		this.mi = mi;
+		this.mi = mi
 		this.database = database
 		this.program = program
 		this.utility = utility
@@ -61,7 +61,7 @@ public class AddHead extends ExtendM3Transaction {
 
 		if( dimt < 1 || dimt > 3) {
 			mi.error("Méthode de reventilation "+dimt+" est invalide.")
-			return;
+			return
 		}
 
 		if(bdtp == null) {
@@ -71,7 +71,7 @@ public class AddHead extends ExtendM3Transaction {
 
 		if(bdtp <1 || bdtp > 7) {
 			mi.error("Type d'affectation "+bdtp+" est invalide.")
-			return;
+			return
 		}
 
 		if(bdpc == null)
@@ -96,7 +96,7 @@ public class AddHead extends ExtendM3Transaction {
 		}
 
 		if(tx15.isBlank()) {
-			tx15 = tx40.substring(0, 15);
+			tx15 = tx40.substring(0, 15)
 		}
 
 		DBAction fgdithRecord = database.table("FGDITH").index("00").build()
