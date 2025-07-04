@@ -211,7 +211,7 @@ public class AddLine extends ExtendM3Transaction {
 		
 
 		fgdibdRecordForCheck.readAll(fgdibdContainerForCheck, 3, 9999,{ DBContainer container ->
-			if(!container.get("BYBBLN").toString().equals(bbln.toString())) {
+			//if(!container.get("BYBBLN").toString().equals(bbln.toString())) {
 				//FROM
 				fromRecordbfa1 = container.get("BYBFA1").toString()
 				fromRecordbfa2 = container.get("BYBFA2").toString()
@@ -380,11 +380,22 @@ public class AddLine extends ExtendM3Transaction {
 				}else {
 					error = true
 				}
-			}
+			//}
 		})
 		
 		if(error) {
 			mi.error("Chevauchement des valeurs avec une ligne précédente.")
+			return
+		}
+		
+		DBAction fgdibhRecord = database.table("FGDIBH").index("00").build()
+		DBContainer fgdibhContainer = fgdibhRecord.createContainer()
+		fgdibhContainer.setInt("BXCONO", cono)
+		fgdibhContainer.setString("BXDIVI", divi)
+		fgdibhContainer.setString("BXBTAB", btab)
+		
+		if(!fgdibhRecord.read(fgdibhContainer)) {
+			mi.error("Aucune entête trouvée.")
 			return
 		}
 		

@@ -214,10 +214,10 @@ public class AddLine extends ExtendM3Transaction {
 		DBContainer faaccbContainerForCheck = faaccbRecordForCheck.createContainer()
 		faaccbContainerForCheck.setInt("FBCONO", cono)
 		faaccbContainerForCheck.setString("FBDIVI", divi)
-		faaccbContainerForCheck.setInt("FBRCNO", rcno)
+		//faaccbContainerForCheck.setInt("FBRCNO", rcno)
 
-		faaccbRecordForCheck.readAll(faaccbContainerForCheck, 3, 9999,{ DBContainer container ->
-			if(!container.get("FBRGLN").toString().equals(rgln.toString())) {
+		faaccbRecordForCheck.readAll(faaccbContainerForCheck, 2, 9999,{ DBContainer container ->
+			//if(!container.get("FBRGLN").toString().equals(rgln.toString())) {
 				//FROM
 				fromRecordbfa1 = container.get("FBBFA1").toString()
 				fromRecordbfa2 = container.get("FBBFA2").toString()
@@ -387,7 +387,7 @@ public class AddLine extends ExtendM3Transaction {
 				}else {
 					error = true
 				}
-			}
+			//}
 		})
 
 		if(error) {
@@ -423,6 +423,16 @@ public class AddLine extends ExtendM3Transaction {
 
 		if (nrc7 > 1) {
 			mi.error("La valeur NRC7 doit être égal à 0 ou 1.")
+			return
+		}
+		
+		DBAction faacchRecord = database.table("FAACCH").index("00").build()
+		DBContainer faacchContainer = faacchRecord.createContainer()
+		faacchContainer.setInt("FHCONO", cono)
+		faacchContainer.setString("FHDIVI", divi)
+		faacchContainer.setInt("FHRCNO", rcno)
+		if(!faacchRecord.read(faacchContainer)) {
+			mi.error("Aucune entête trouvée.")
 			return
 		}
 

@@ -1,12 +1,12 @@
 /**
  * README
  *
- * Name: EXT102MI.AddLine
- * Description: Add a record in FGDITD
+ * Name: EXT102MI.UpdLine
+ * Description: Update a record in FGDITD
  * Date                         Changed By                    Description
- * 20250624                     d.decosterd@hetic3.fr     		création
+ * 20250624                     a.ferre@hetic3.fr     		création
  */
-public class AddLine extends ExtendM3Transaction {
+public class UpdLine extends ExtendM3Transaction {
 	private final MIAPI mi
 	private final DatabaseAPI database
 	private final ProgramAPI program
@@ -14,9 +14,9 @@ public class AddLine extends ExtendM3Transaction {
 	private final MICallerAPI miCaller
 	private final MessageAPI message
 	private final LoggerAPI logger
-
-	public AddLine(MIAPI mi, DatabaseAPI database, ProgramAPI program, UtilityAPI utility, MICallerAPI miCaller, MessageAPI message, LoggerAPI logger) {
-		this.mi = mi
+	
+	public UpdLine(MIAPI mi, DatabaseAPI database, ProgramAPI program, UtilityAPI utility, MICallerAPI miCaller, MessageAPI message, LoggerAPI logger) {
+	 this.mi = mi
 		this.database = database
 		this.program = program
 		this.utility = utility
@@ -24,7 +24,7 @@ public class AddLine extends ExtendM3Transaction {
 		this.message = message
 		this.logger = logger
 	}
-
+	
 	public void main() {
 		Integer cono = mi.in.get("CONO")
 		String divi = (mi.inData.get("DIVI") == null) ? "" : mi.inData.get("DIVI").trim()
@@ -43,8 +43,8 @@ public class AddLine extends ExtendM3Transaction {
 		Float dipe = mi.in.get("DIPE")
 		Float dirs = mi.in.get("DIRS")
 		String stab = (mi.inData.get("STAB") == null) ? "" : mi.inData.get("STAB").trim()
-
-
+		
+		
 		if(cono == null) {
 			mi.error("La CONO est obligatoire.")
 			return
@@ -84,7 +84,7 @@ public class AddLine extends ExtendM3Transaction {
 			mi.error("Type ligne de reventilation "+bltp+" est invalide.")
 			return
 		}
-
+		
 		DBAction fgdithRecord = database.table("FGDITH").index("00").selection("BZDIMT","BZBDTP").build()
 		DBContainer fgdithContainer = fgdithRecord.createContainer()
 		fgdithContainer.setInt("BZCONO", cono)
@@ -375,41 +375,43 @@ public class AddLine extends ExtendM3Transaction {
 			}
 		}
 
-		DBAction fgditdRecord = database.table("FGDITD").index("00").build()
+		DBAction fgditdRecord = database.table("FGDITD").index("00").selection("BECHNO").build()
 		DBContainer fgditdContainer = fgditdRecord.createContainer()
 		fgditdContainer.setInt("BECONO", cono)
 		fgditdContainer.setString("BEDIVI", divi)
 		fgditdContainer.setString("BETTAB", ttab)
 		fgditdContainer.setInt("BEBBLN", bbln)
+		
+		boolean updatable = fgditdRecord.readLock(fgditdContainer, { LockedResult updateRecoord ->
+			updateRecoord.set("BEBLTP", bltp)
+			updateRecoord.setString("BETX40", tx40)
+			updateRecoord.setString("BETFA1", tfa1)
+			updateRecoord.setString("BETFA2", tfa2)
+			updateRecoord.setString("BETFA3", tfa3)
+			updateRecoord.setString("BETFA4", tfa4)
+			updateRecoord.setString("BETFA5", tfa5)
+			updateRecoord.setString("BETFA6", tfa6)
+			updateRecoord.setString("BETFA7", tfa7)
+			updateRecoord.setString("BEOFDI", ofdi)
+			updateRecoord.set("BEDIPE", dipe)
+			updateRecoord.set("BEDIRS", dirs)
+			updateRecoord.setString("BESTAB", stab)
 
-		if(!fgditdRecord.read(fgditdContainer)){
-			fgditdContainer.setInt("BEBLTP", bltp)
-			fgditdContainer.setString("BETX40", tx40)
-			fgditdContainer.setString("BETFA1", tfa1)
-			fgditdContainer.setString("BETFA2", tfa2)
-			fgditdContainer.setString("BETFA3", tfa3)
-			fgditdContainer.setString("BETFA4", tfa4)
-			fgditdContainer.setString("BETFA5", tfa5)
-			fgditdContainer.setString("BETFA6", tfa6)
-			fgditdContainer.setString("BETFA7", tfa7)
-			fgditdContainer.setString("BEOFDI", ofdi)
-			fgditdContainer.set("BEDIPE", dipe)
-			fgditdContainer.set("BEDIRS", dirs)
-			fgditdContainer.setString("BESTAB", stab)
-			fgditdContainer.set("BERGDT", (Integer) utility.call("DateUtil", "currentDateY8AsInt"))
-			fgditdContainer.set("BERGTM", (Integer) utility.call("DateUtil", "currentTimeAsInt"))
-			fgditdContainer.set("BELMDT", (Integer) utility.call("DateUtil", "currentDateY8AsInt"))
-			fgditdContainer.set("BECHID", program.getUser())
-			fgditdContainer.set("BECHNO", 1)
-			fgditdRecord.insert(fgditdContainer)
-		}else
+			int CHNO = updateRecoord.getInt("BECHNO")
+			if(CHNO== 999) {CHNO = 0}
+			CHNO++
+			updateRecoord.set("BELMDT", (Integer) utility.call("DateUtil", "currentDateY8AsInt"))
+			updateRecoord.set("BECHID", program.getUser())
+			updateRecoord.setInt("BECHNO", CHNO)
+			updateRecoord.update()
+		})
+
+		if(!updatable)
 		{
-			mi.error("Enregistrement existe déjà.")
+			mi.error("L'enregistrement n'existe pas.")
 			return
 		}
-
 	}
-
 	/**
 	 * Check validity of the value of tfa1
 	 * @param cono
@@ -576,4 +578,4 @@ public class AddLine extends ExtendM3Transaction {
 		}
 		return true
 	}
-}
+  }

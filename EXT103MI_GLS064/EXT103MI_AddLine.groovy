@@ -214,6 +214,16 @@ public class AddLine extends ExtendM3Transaction {
 			return
 		}
 		
+		DBAction fgdishRecord = database.table("FGDISH").index("00").build()
+		DBContainer fgdishContainer = fgdishRecord.createContainer()
+		fgdishContainer.setInt("BFCONO", cono)
+		fgdishContainer.setString("BFDIVI", divi)
+		fgdishContainer.setString("BFSTAB", stab)
+		if(!fgdishRecord.read(fgdishContainer)) {
+			mi.error("Aucune entête trouvée.")
+			return
+		}
+		
 		DBAction fgdisdRecord = database.table("FGDISD").index("00").build()
 		DBContainer fgdibdContainer = fgdisdRecord.createContainer()
 		fgdibdContainer.setInt("BGCONO", cono)
