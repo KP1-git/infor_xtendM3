@@ -194,7 +194,7 @@ public class AddLine extends ExtendM3Transaction {
 				return
 			}else {
 				if(bdtp != 7 && aetp ==2) {
-					mi.error("Type d'affactation cible doit être à 7 si AETP = 2")
+					mi.error("Type d'affectation cible doit être à 7 si AETP = 2")
 					return
 				}
 			}
@@ -235,14 +235,14 @@ public class AddLine extends ExtendM3Transaction {
 
 		if(casf != 0) {
 			if(bdtp != 3 && bdtp != 4) {
-				mi.error("Type affactation pour table cible doit être 3 ou 4 si selection calcul différent de 0")
+				mi.error("Type affectation pour table cible doit être 3 ou 4 si selection calcul différent de 0")
 				return
 			}
 		}
 
 		if(casf == 0) {
 			if(bdtp == 3 || bdtp == 4) {
-				mi.error("Type affactation pour table cible doit être différent 3 ou 4 si selection calcul = 0")
+				mi.error("Type affectation pour table cible doit être différent 3 ou 4 si selection calcul = 0")
 				return
 			}
 		}

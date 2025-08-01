@@ -11,13 +11,15 @@ public class AddLine extends ExtendM3Transaction {
 	private final ProgramAPI program
 	private final DatabaseAPI database
 	private final UtilityAPI utility
+	private final LoggerAPI logger
 
 
-	public AddLine(MIAPI mi, DatabaseAPI database, UtilityAPI utility, ProgramAPI program) {
+	public AddLine(MIAPI mi, DatabaseAPI database, UtilityAPI utility, ProgramAPI program, LoggerAPI logger) {
 		this.mi = mi
 		this.program = program
 		this.database = database
 		this.utility = utility
+		this.logger = logger
 
 	}
 
@@ -163,37 +165,37 @@ public class AddLine extends ExtendM3Transaction {
 
 
 		if (bfa1.compareTo(xxbta1) > 0) {
-			mi.error("La valeur From AIT1 est supérieur a la veleur TO AIT1.")
+			mi.error("La valeur From AIT1 est supérieur a la valeur TO AIT1.")
 			return
 		}
 
 		if (bfa2.compareTo(xxbta2) > 0) {
-			mi.error("La valeur From AIT2 est supérieur a la veleur TO AIT2.")
+			mi.error("La valeur From AIT2 est supérieur a la valeur TO AIT2.")
 			return
 		}
 
 		if (bfa3.compareTo(xxbta3) > 0) {
-			mi.error("La valeur From AIT3 est supérieur a la veleur TO AIT3.")
+			mi.error("La valeur From AIT3 est supérieur a la valeur TO AIT3.")
 			return
 		}
 
 		if (bfa4.compareTo(xxbta4) > 0) {
-			mi.error("La valeur From AIT4 est supérieur a la veleur TO AIT4.")
+			mi.error("La valeur From AIT4 est supérieur a la valeur TO AIT4.")
 			return
 		}
 
 		if (bfa5.compareTo(xxbta5) > 0) {
-			mi.error("La valeur From AIT5 est supérieur a la veleur TO AIT5.")
+			mi.error("La valeur From AIT5 est supérieur a la valeur TO AIT5.")
 			return
 		}
 
 		if (bfa6.compareTo(xxbta6) > 0) {
-			mi.error("La valeur From AIT6 est supérieur a la veleur TO AIT6.")
+			mi.error("La valeur From AIT6 est supérieur a la valeur TO AIT6.")
 			return
 		}
 
 		if (bfa7.compareTo(xxbta7) > 0) {
-			mi.error("La valeur From AIT7 est supérieur a la veleur TO AIT7.")
+			mi.error("La valeur From AIT7 est supérieur a la valeur TO AIT7.")
 			return
 		}
 
@@ -218,175 +220,175 @@ public class AddLine extends ExtendM3Transaction {
 
 		faaccbRecordForCheck.readAll(faaccbContainerForCheck, 2, 9999,{ DBContainer container ->
 			//if(!container.get("FBRGLN").toString().equals(rgln.toString())) {
-				//FROM
-				fromRecordbfa1 = container.get("FBBFA1").toString()
-				fromRecordbfa2 = container.get("FBBFA2").toString()
-				fromRecordbfa3 = container.get("FBBFA3").toString()
-				fromRecordbfa4 = container.get("FBBFA4").toString()
-				fromRecordbfa5 = container.get("FBBFA5").toString()
-				fromRecordbfa6 = container.get("FBBFA6").toString()
-				fromRecordbfa7 = container.get("FBBFA7").toString()
-				//TO
-				fromRecordbta1 = container.get("FBBTA1").toString()
-				fromRecordbta2 = container.get("FBBTA2").toString()
-				fromRecordbta3 = container.get("FBBTA3").toString()
-				fromRecordbta4 = container.get("FBBTA4").toString()
-				fromRecordbta5 = container.get("FBBTA5").toString()
-				fromRecordbta6 = container.get("FBBTA6").toString()
-				fromRecordbta7 = container.get("FBBTA7").toString()
-				//Replace
-				fromRecordbna2 = container.get("FBBNA2").toString()
-				fromRecordbna3 = container.get("FBBNA3").toString()
-				fromRecordbna4 = container.get("FBBNA4").toString()
-				fromRecordbna5 = container.get("FBBNA5").toString()
-				fromRecordbna6 = container.get("FBBNA6").toString()
-				fromRecordbna7 = container.get("FBBNA7").toString()
+			//FROM
+			fromRecordbfa1 = container.get("FBBFA1").toString().trim()
+			fromRecordbfa2 = container.get("FBBFA2").toString().trim()
+			fromRecordbfa3 = container.get("FBBFA3").toString().trim()
+			fromRecordbfa4 = container.get("FBBFA4").toString().trim()
+			fromRecordbfa5 = container.get("FBBFA5").toString().trim()
+			fromRecordbfa6 = container.get("FBBFA6").toString().trim()
+			fromRecordbfa7 = container.get("FBBFA7").toString().trim()
+			//TO
+			fromRecordbta1 = container.get("FBBTA1").toString().trim()
+			fromRecordbta2 = container.get("FBBTA2").toString().trim()
+			fromRecordbta3 = container.get("FBBTA3").toString().trim()
+			fromRecordbta4 = container.get("FBBTA4").toString().trim()
+			fromRecordbta5 = container.get("FBBTA5").toString().trim()
+			fromRecordbta6 = container.get("FBBTA6").toString().trim()
+			fromRecordbta7 = container.get("FBBTA7").toString().trim()
+			//Replace
+			fromRecordbna2 = container.get("FBBNA2").toString().trim()
+			fromRecordbna3 = container.get("FBBNA3").toString().trim()
+			fromRecordbna4 = container.get("FBBNA4").toString().trim()
+			fromRecordbna5 = container.get("FBBNA5").toString().trim()
+			fromRecordbna6 = container.get("FBBNA6").toString().trim()
+			fromRecordbna7 = container.get("FBBNA7").toString().trim()
 
-				if(
-				bfa1.compareTo(fromRecordbfa1) < 0 &&
-						bfa1.compareTo(fromRecordbta1) < 0 &&
-						xxbta1.compareTo(fromRecordbfa1) < 0 &&
-						xxbta1.compareTo(fromRecordbta1) < 0
-						||
-						bfa2.compareTo(fromRecordbfa2) < 0 &&
-						bfa2.compareTo(fromRecordbta2) < 0 &&
-						xxbta2.compareTo(fromRecordbfa2) < 0 &&
-						xxbta2.compareTo(fromRecordbta2) < 0
-						||
-						bfa3.compareTo(fromRecordbfa3) < 0 &&
-						bfa3.compareTo(fromRecordbta3) < 0 &&
-						xxbta3.compareTo(fromRecordbfa3) < 0 &&
-						xxbta3.compareTo(fromRecordbta3) < 0
-						||
-						bfa4.compareTo(fromRecordbfa4) < 0 &&
-						bfa4.compareTo(fromRecordbta4) < 0 &&
-						xxbta4.compareTo(fromRecordbfa4) < 0 &&
-						xxbta4.compareTo(fromRecordbta4) < 0
-						||
-						bfa5.compareTo(fromRecordbfa5) < 0 &&
-						bfa5.compareTo(fromRecordbta5) < 0 &&
-						xxbta5.compareTo(fromRecordbfa5) < 0 &&
-						xxbta5.compareTo(fromRecordbta5) < 0
-						||
-						bfa6.compareTo(fromRecordbfa6) < 0 &&
-						bfa6.compareTo(fromRecordbta6) < 0 &&
-						xxbta6.compareTo(fromRecordbfa6) < 0 &&
-						xxbta6.compareTo(fromRecordbta6) < 0
-						||
-						bfa7.compareTo(fromRecordbfa7) < 0 &&
-						bfa7.compareTo(fromRecordbta7) < 0 &&
-						xxbta7.compareTo(fromRecordbfa7) < 0 &&
-						xxbta7.compareTo(fromRecordbta7) < 0
-						||
-						bfa1.compareTo(fromRecordbfa1) > 0 &&
-						bfa1.compareTo(fromRecordbta1) > 0 &&
-						xxbta1.compareTo(fromRecordbfa1) > 0 &&
-						xxbta1.compareTo(fromRecordbta1) > 0
-						||
-						bfa2.compareTo(fromRecordbfa2) > 0 &&
-						bfa2.compareTo(fromRecordbta2) > 0 &&
-						xxbta2.compareTo(fromRecordbfa2) > 0 &&
-						xxbta2.compareTo(fromRecordbta2) > 0
-						||
-						bfa3.compareTo(fromRecordbfa3) > 0 &&
-						bfa3.compareTo(fromRecordbta3) > 0 &&
-						xxbta3.compareTo(fromRecordbfa3) > 0 &&
-						xxbta3.compareTo(fromRecordbta3) > 0
-						||
-						bfa4.compareTo(fromRecordbfa4) > 0 &&
-						bfa4.compareTo(fromRecordbta4) > 0 &&
-						xxbta4.compareTo(fromRecordbfa4) > 0 &&
-						xxbta4.compareTo(fromRecordbta4) > 0
-						||
-						bfa5.compareTo(fromRecordbfa5) > 0 &&
-						bfa5.compareTo(fromRecordbta5) > 0 &&
-						xxbta5.compareTo(fromRecordbfa5) > 0 &&
-						xxbta5.compareTo(fromRecordbta5) > 0
-						||
-						bfa6.compareTo(fromRecordbfa6) > 0 &&
-						bfa6.compareTo(fromRecordbta6) > 0 &&
-						xxbta6.compareTo(fromRecordbfa6) > 0 &&
-						xxbta6.compareTo(fromRecordbta6) > 0
-						||
-						bfa7.compareTo(fromRecordbfa7) > 0 &&
-						bfa7.compareTo(fromRecordbta7) > 0 &&
-						xxbta7.compareTo(fromRecordbfa7) > 0 &&
-						xxbta7.compareTo(fromRecordbta7) > 0
-						||
-						fromRecordbfa1.compareTo(bfa1) < 0 &&
-						fromRecordbfa1.compareTo(xxbta1) < 0 &&
-						fromRecordbta1.compareTo(bfa1) < 0 &&
-						fromRecordbta1.compareTo(xxbta1) < 0
-						||
-						fromRecordbfa2.compareTo(bfa2) < 0 &&
-						fromRecordbfa2.compareTo(xxbta2) < 0 &&
-						fromRecordbta2.compareTo(bfa2) < 0 &&
-						fromRecordbta2.compareTo(xxbta2) < 0
-						||
-						fromRecordbfa3.compareTo(bfa3) < 0 &&
-						fromRecordbfa3.compareTo(xxbta3) < 0 &&
-						fromRecordbta3.compareTo(bfa3) < 0 &&
-						fromRecordbta3.compareTo(xxbta3) < 0
-						||
-						fromRecordbfa4.compareTo(bfa4) < 0 &&
-						fromRecordbfa4.compareTo(xxbta4) < 0 &&
-						fromRecordbta4.compareTo(bfa4) < 0 &&
-						fromRecordbta4.compareTo(xxbta4) < 0
-						||
-						fromRecordbfa5.compareTo(bfa5) < 0 &&
-						fromRecordbfa5.compareTo(xxbta5) < 0 &&
-						fromRecordbta5.compareTo(bfa5) < 0 &&
-						fromRecordbta5.compareTo(xxbta5) < 0
-						||
-						fromRecordbfa6.compareTo(bfa6) < 0 &&
-						fromRecordbfa6.compareTo(xxbta6) < 0 &&
-						fromRecordbta6.compareTo(bfa6) < 0 &&
-						fromRecordbta6.compareTo(xxbta6) < 0
-						||
-						fromRecordbfa7.compareTo(bfa7) < 0 &&
-						fromRecordbfa7.compareTo(xxbta7) < 0 &&
-						fromRecordbta7.compareTo(bfa7) < 0 &&
-						fromRecordbta7.compareTo(xxbta7) < 0
-						||
-						fromRecordbfa1.compareTo(bfa1) > 0 &&
-						fromRecordbfa1.compareTo(xxbta1) > 0 &&
-						fromRecordbta1.compareTo(bfa1) > 0 &&
-						fromRecordbta1.compareTo(xxbta1) > 0
-						||
-						fromRecordbfa2.compareTo(bfa2) > 0 &&
-						fromRecordbfa2.compareTo(xxbta2) > 0 &&
-						fromRecordbta2.compareTo(bfa2) > 0 &&
-						fromRecordbta2.compareTo(xxbta2) > 0
-						||
-						fromRecordbfa3.compareTo(bfa3) > 0 &&
-						fromRecordbfa3.compareTo(xxbta3) > 0 &&
-						fromRecordbta3.compareTo(bfa3) > 0 &&
-						fromRecordbta3.compareTo(xxbta3) > 0
-						||
-						fromRecordbfa4.compareTo(bfa4) > 0 &&
-						fromRecordbfa4.compareTo(xxbta4) > 0 &&
-						fromRecordbta4.compareTo(bfa4) > 0 &&
-						fromRecordbta4.compareTo(xxbta4) > 0
-						||
-						fromRecordbfa5.compareTo(bfa5) > 0 &&
-						fromRecordbfa5.compareTo(xxbta5) > 0 &&
-						fromRecordbta5.compareTo(bfa5) > 0 &&
-						fromRecordbta5.compareTo(xxbta5) > 0
-						||
-						fromRecordbfa6.compareTo(bfa6) > 0 &&
-						fromRecordbfa6.compareTo(xxbta6) > 0 &&
-						fromRecordbta6.compareTo(bfa6) > 0 &&
-						fromRecordbta6.compareTo(xxbta6) > 0
-						||
-						fromRecordbfa7.compareTo(bfa7) > 0 &&
-						fromRecordbfa7.compareTo(xxbta7) > 0 &&
-						fromRecordbta7.compareTo(bfa7) > 0 &&
-						fromRecordbta7.compareTo(xxbta7) > 0
-						) {
+			if(
+			bfa1.compareTo(fromRecordbfa1) < 0 &&
+					bfa1.compareTo(fromRecordbta1) < 0 &&
+					xxbta1.compareTo(fromRecordbfa1) < 0 &&
+					xxbta1.compareTo(fromRecordbta1) < 0
+					||
+					bfa2.compareTo(fromRecordbfa2) < 0 &&
+					bfa2.compareTo(fromRecordbta2) < 0 &&
+					xxbta2.compareTo(fromRecordbfa2) < 0 &&
+					xxbta2.compareTo(fromRecordbta2) < 0
+					||
+					bfa3.compareTo(fromRecordbfa3) < 0 &&
+					bfa3.compareTo(fromRecordbta3) < 0 &&
+					xxbta3.compareTo(fromRecordbfa3) < 0 &&
+					xxbta3.compareTo(fromRecordbta3) < 0
+					||
+					bfa4.compareTo(fromRecordbfa4) < 0 &&
+					bfa4.compareTo(fromRecordbta4) < 0 &&
+					xxbta4.compareTo(fromRecordbfa4) < 0 &&
+					xxbta4.compareTo(fromRecordbta4) < 0
+					||
+					bfa5.compareTo(fromRecordbfa5) < 0 &&
+					bfa5.compareTo(fromRecordbta5) < 0 &&
+					xxbta5.compareTo(fromRecordbfa5) < 0 &&
+					xxbta5.compareTo(fromRecordbta5) < 0
+					||
+					bfa6.compareTo(fromRecordbfa6) < 0 &&
+					bfa6.compareTo(fromRecordbta6) < 0 &&
+					xxbta6.compareTo(fromRecordbfa6) < 0 &&
+					xxbta6.compareTo(fromRecordbta6) < 0
+					||
+					bfa7.compareTo(fromRecordbfa7) < 0 &&
+					bfa7.compareTo(fromRecordbta7) < 0 &&
+					xxbta7.compareTo(fromRecordbfa7) < 0 &&
+					xxbta7.compareTo(fromRecordbta7) < 0
+					||
+					bfa1.compareTo(fromRecordbfa1) > 0 &&
+					bfa1.compareTo(fromRecordbta1) > 0 &&
+					xxbta1.compareTo(fromRecordbfa1) > 0 &&
+					xxbta1.compareTo(fromRecordbta1) > 0
+					||
+					bfa2.compareTo(fromRecordbfa2) > 0 &&
+					bfa2.compareTo(fromRecordbta2) > 0 &&
+					xxbta2.compareTo(fromRecordbfa2) > 0 &&
+					xxbta2.compareTo(fromRecordbta2) > 0
+					||
+					bfa3.compareTo(fromRecordbfa3) > 0 &&
+					bfa3.compareTo(fromRecordbta3) > 0 &&
+					xxbta3.compareTo(fromRecordbfa3) > 0 &&
+					xxbta3.compareTo(fromRecordbta3) > 0
+					||
+					bfa4.compareTo(fromRecordbfa4) > 0 &&
+					bfa4.compareTo(fromRecordbta4) > 0 &&
+					xxbta4.compareTo(fromRecordbfa4) > 0 &&
+					xxbta4.compareTo(fromRecordbta4) > 0
+					||
+					bfa5.compareTo(fromRecordbfa5) > 0 &&
+					bfa5.compareTo(fromRecordbta5) > 0 &&
+					xxbta5.compareTo(fromRecordbfa5) > 0 &&
+					xxbta5.compareTo(fromRecordbta5) > 0
+					||
+					bfa6.compareTo(fromRecordbfa6) > 0 &&
+					bfa6.compareTo(fromRecordbta6) > 0 &&
+					xxbta6.compareTo(fromRecordbfa6) > 0 &&
+					xxbta6.compareTo(fromRecordbta6) > 0
+					||
+					bfa7.compareTo(fromRecordbfa7) > 0 &&
+					bfa7.compareTo(fromRecordbta7) > 0 &&
+					xxbta7.compareTo(fromRecordbfa7) > 0 &&
+					xxbta7.compareTo(fromRecordbta7) > 0
+					||
+					fromRecordbfa1.compareTo(bfa1) < 0 &&
+					fromRecordbfa1.compareTo(xxbta1) < 0 &&
+					fromRecordbta1.compareTo(bfa1) < 0 &&
+					fromRecordbta1.compareTo(xxbta1) < 0
+					||
+					fromRecordbfa2.compareTo(bfa2) < 0 &&
+					fromRecordbfa2.compareTo(xxbta2) < 0 &&
+					fromRecordbta2.compareTo(bfa2) < 0 &&
+					fromRecordbta2.compareTo(xxbta2) < 0
+					||
+					fromRecordbfa3.compareTo(bfa3) < 0 &&
+					fromRecordbfa3.compareTo(xxbta3) < 0 &&
+					fromRecordbta3.compareTo(bfa3) < 0 &&
+					fromRecordbta3.compareTo(xxbta3) < 0
+					||
+					fromRecordbfa4.compareTo(bfa4) < 0 &&
+					fromRecordbfa4.compareTo(xxbta4) < 0 &&
+					fromRecordbta4.compareTo(bfa4) < 0 &&
+					fromRecordbta4.compareTo(xxbta4) < 0
+					||
+					fromRecordbfa5.compareTo(bfa5) < 0 &&
+					fromRecordbfa5.compareTo(xxbta5) < 0 &&
+					fromRecordbta5.compareTo(bfa5) < 0 &&
+					fromRecordbta5.compareTo(xxbta5) < 0
+					||
+					fromRecordbfa6.compareTo(bfa6) < 0 &&
+					fromRecordbfa6.compareTo(xxbta6) < 0 &&
+					fromRecordbta6.compareTo(bfa6) < 0 &&
+					fromRecordbta6.compareTo(xxbta6) < 0
+					||
+					fromRecordbfa7.compareTo(bfa7) < 0 &&
+					fromRecordbfa7.compareTo(xxbta7) < 0 &&
+					fromRecordbta7.compareTo(bfa7) < 0 &&
+					fromRecordbta7.compareTo(xxbta7) < 0
+					||
+					fromRecordbfa1.compareTo(bfa1) > 0 &&
+					fromRecordbfa1.compareTo(xxbta1) > 0 &&
+					fromRecordbta1.compareTo(bfa1) > 0 &&
+					fromRecordbta1.compareTo(xxbta1) > 0
+					||
+					fromRecordbfa2.compareTo(bfa2) > 0 &&
+					fromRecordbfa2.compareTo(xxbta2) > 0 &&
+					fromRecordbta2.compareTo(bfa2) > 0 &&
+					fromRecordbta2.compareTo(xxbta2) > 0
+					||
+					fromRecordbfa3.compareTo(bfa3) > 0 &&
+					fromRecordbfa3.compareTo(xxbta3) > 0 &&
+					fromRecordbta3.compareTo(bfa3) > 0 &&
+					fromRecordbta3.compareTo(xxbta3) > 0
+					||
+					fromRecordbfa4.compareTo(bfa4) > 0 &&
+					fromRecordbfa4.compareTo(xxbta4) > 0 &&
+					fromRecordbta4.compareTo(bfa4) > 0 &&
+					fromRecordbta4.compareTo(xxbta4) > 0
+					||
+					fromRecordbfa5.compareTo(bfa5) > 0 &&
+					fromRecordbfa5.compareTo(xxbta5) > 0 &&
+					fromRecordbta5.compareTo(bfa5) > 0 &&
+					fromRecordbta5.compareTo(xxbta5) > 0
+					||
+					fromRecordbfa6.compareTo(bfa6) > 0 &&
+					fromRecordbfa6.compareTo(xxbta6) > 0 &&
+					fromRecordbta6.compareTo(bfa6) > 0 &&
+					fromRecordbta6.compareTo(xxbta6) > 0
+					||
+					fromRecordbfa7.compareTo(bfa7) > 0 &&
+					fromRecordbfa7.compareTo(xxbta7) > 0 &&
+					fromRecordbta7.compareTo(bfa7) > 0 &&
+					fromRecordbta7.compareTo(xxbta7) > 0
+					) {
 
-				}else {
-					error = true
-				}
+			}else {
+				error = true
+			}
 			//}
 		})
 
@@ -425,7 +427,7 @@ public class AddLine extends ExtendM3Transaction {
 			mi.error("La valeur NRC7 doit être égal à 0 ou 1.")
 			return
 		}
-		
+
 		DBAction faacchRecord = database.table("FAACCH").index("00").build()
 		DBContainer faacchContainer = faacchRecord.createContainer()
 		faacchContainer.setInt("FHCONO", cono)

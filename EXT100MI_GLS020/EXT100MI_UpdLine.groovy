@@ -200,13 +200,13 @@ public class UpdLine extends ExtendM3Transaction {
 			mi.error("Aucune valeur n'a été renseigné.")
 			return
 		}
-		
+
 		if(nrc2 == null || nrc3 == null || nrc3 == null || nrc5 == null || nrc6 == null || nrc7 == null) {
 			mi.error("Les code remplacement NRC doivent être à 0 ou 1")
 			return
 		}
-		
-		
+
+
 
 		//Boucle pour vérifier les chevauchements
 		boolean error = false
@@ -220,32 +220,31 @@ public class UpdLine extends ExtendM3Transaction {
 			logger.info("Test Adrien dans boucle");
 			logger.info(container.get("FBRGLN").toString());
 			logger.info(rgln.toString());
-			
+
 			if(!container.get("FBRGLN").toString().equals(rgln.toString()) && !container.get("FBRCNO").toString().equals(rcno.toString())) {
 
-				//FROM
-				fromRecordbfa1 = container.get("FBBFA1").toString()
-				fromRecordbfa2 = container.get("FBBFA2").toString()
-				fromRecordbfa3 = container.get("FBBFA3").toString()
-				fromRecordbfa4 = container.get("FBBFA4").toString()
-				fromRecordbfa5 = container.get("FBBFA5").toString()
-				fromRecordbfa6 = container.get("FBBFA6").toString()
-				fromRecordbfa7 = container.get("FBBFA7").toString()
+				fromRecordbfa1 = container.get("FBBFA1").toString().trim()
+				fromRecordbfa2 = container.get("FBBFA2").toString().trim()
+				fromRecordbfa3 = container.get("FBBFA3").toString().trim()
+				fromRecordbfa4 = container.get("FBBFA4").toString().trim()
+				fromRecordbfa5 = container.get("FBBFA5").toString().trim()
+				fromRecordbfa6 = container.get("FBBFA6").toString().trim()
+				fromRecordbfa7 = container.get("FBBFA7").toString().trim()
 				//TO
-				fromRecordbta1 = container.get("FBBTA1").toString()
-				fromRecordbta2 = container.get("FBBTA2").toString()
-				fromRecordbta3 = container.get("FBBTA3").toString()
-				fromRecordbta4 = container.get("FBBTA4").toString()
-				fromRecordbta5 = container.get("FBBTA5").toString()
-				fromRecordbta6 = container.get("FBBTA6").toString()
-				fromRecordbta7 = container.get("FBBTA7").toString()
+				fromRecordbta1 = container.get("FBBTA1").toString().trim()
+				fromRecordbta2 = container.get("FBBTA2").toString().trim()
+				fromRecordbta3 = container.get("FBBTA3").toString().trim()
+				fromRecordbta4 = container.get("FBBTA4").toString().trim()
+				fromRecordbta5 = container.get("FBBTA5").toString().trim()
+				fromRecordbta6 = container.get("FBBTA6").toString().trim()
+				fromRecordbta7 = container.get("FBBTA7").toString().trim()
 				//Replace
-				fromRecordbna2 = container.get("FBBNA2").toString()
-				fromRecordbna3 = container.get("FBBNA3").toString()
-				fromRecordbna4 = container.get("FBBNA4").toString()
-				fromRecordbna5 = container.get("FBBNA5").toString()
-				fromRecordbna6 = container.get("FBBNA6").toString()
-				fromRecordbna7 = container.get("FBBNA7").toString()
+				fromRecordbna2 = container.get("FBBNA2").toString().trim()
+				fromRecordbna3 = container.get("FBBNA3").toString().trim()
+				fromRecordbna4 = container.get("FBBNA4").toString().trim()
+				fromRecordbna5 = container.get("FBBNA5").toString().trim()
+				fromRecordbna6 = container.get("FBBNA6").toString().trim()
+				fromRecordbna7 = container.get("FBBNA7").toString().trim()
 
 
 				if(
@@ -432,7 +431,7 @@ public class UpdLine extends ExtendM3Transaction {
 			return
 		}
 
-		DBAction faaccbRecord = database.table("FAACCB").index("00").selection("BYCHNO").build()
+		DBAction faaccbRecord = database.table("FAACCB").index("00").selection("FBCHNO").build()
 		DBContainer faaccbContainer = faaccbRecord.createContainer()
 		faaccbContainer.setInt("FBCONO", cono)
 		faaccbContainer.setString("FBDIVI", divi)
