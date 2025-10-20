@@ -155,20 +155,6 @@ public class Upd extends ExtendM3Transaction {
 		}
 
 
-		/*if(adrt == 3) {
-		 DBAction ocusmaRecord = database.table("OCUSMA").index("00").selection("OKADID").build()
-		 DBContainer ocusmaContainer = ocusmaRecord.createContainer()
-		 ocusmaContainer.setInt("OKCONO", cono)
-		 ocusmaContainer.setString("OKCUNO",ooheadContainer.getString("OADECU") )
-		 if(ocusmaRecord.read(ocusmaContainer)) {
-		 ooadreContainer.setString("ODADID", ocusmaContainer.getString("OKADID"))
-		 }
-		 if(ooadreRecord.read(ooheadContainer)) {
-		 mi.error("Enregistrement existe déjà.")
-		 return
-		 }
-		 }*/
-
 		if(wf01 != null && (wf01 <0 || wf01 > 1)) {
 			mi.error("Le champ WF01 ne prend comme valeur que 0 ou 1")
 			return
@@ -216,7 +202,6 @@ public class Upd extends ExtendM3Transaction {
 			}
 		}
 
-		logger.info("------------01")
 		DBAction ocusadRecord = database.table("OCUSAD").index("00").build()
 		DBContainer ocusadContainer = ocusadRecord.createContainer()
 		ocusadContainer.setInt("OPCONO", cono)
@@ -241,7 +226,6 @@ public class Upd extends ExtendM3Transaction {
 			return
 		}
 
-		logger.info("------------02")
 		if(adrt == 1 && !advi.isBlank()) {
 			DBAction cishviRecord = database.table("CISHVI").index("00").build()
 			DBContainer cishviContainer = cishviRecord.createContainer()
@@ -268,7 +252,6 @@ public class Upd extends ExtendM3Transaction {
 			}
 
 		}
-		logger.info("------------03")
 
 		if(program.getLDAZD().get("MXDR") == 1) {
 			if(adid.isBlank() && edes.isEmpty() && usedEdes.isBlank() && adrt == 1) {
@@ -295,7 +278,6 @@ public class Upd extends ExtendM3Transaction {
 		if(foundOodflt) {
 			defaultRoute = oodfltContainer.getString("UJROUT")
 		}
-		logger.info("------------04")
 
 		if(!modl.isEmpty() || !edes.isEmpty() || !pono.isEmpty() || !ecar.isEmpty()) {
 			if(adrt == 1) {
@@ -350,9 +332,6 @@ public class Upd extends ExtendM3Transaction {
 			xtecar = csystsContainer.getString("CKTX15")
 		}
 
-		logger.info("------------05")
-
-
 		// Postal Code validation
 		if(!pono.isEmpty() && yhvpon.equals("1")) {
 			DBAction opotabRecord = database.table("OPOTAB").index("10").build()
@@ -389,7 +368,6 @@ public class Upd extends ExtendM3Transaction {
 		}
 
 
-		logger.info("------------06")
 		if(!cscd.isBlank() && !adft.isBlank()) {
 			DBAction csyadfRecord = database.table("CSYADF").index("00").selection("CXADED","CXADE4","CXNOOC").build()
 			DBContainer csyadfContainer = csyadfRecord.createContainer()
@@ -436,16 +414,6 @@ public class Upd extends ExtendM3Transaction {
 				cua4 = formatedAdr4
 			}
 		}
-		logger.info("------------07")
-
-		//   Check Country Address change
-		/*if (!cscd.isBlank() &&
-		 !vrno.isBlank() &&
-		 !warningGiven) {
-		 //   MSGID=S_01262 WARNING - The country has been changed. Check whether the existing VAT registration number should be replaced.
-		 mi.error(message.getMessage("S_01262", null))
-		 return
-		 }*/
 
 		//   Check VAT registration depending on parm CRS082
 		if(!vrno.isBlank() && !pvcmcn.isBlank() ) {
@@ -475,7 +443,6 @@ public class Upd extends ExtendM3Transaction {
 				return
 			}
 		}
-		logger.info("------------08")
 
 		if(!rout.isEmpty() || rodn != null || !modl.isEmpty()) {
 			//   Validity on route departure
@@ -514,7 +481,6 @@ public class Upd extends ExtendM3Transaction {
 			}
 		}
 
-		logger.info("------------09")
 		if(!modl.isEmpty()) {
 			//   Validity on mode of delivery
 			if(adrt!=3) {
@@ -587,7 +553,6 @@ public class Upd extends ExtendM3Transaction {
 			}
 
 		}
-		logger.info("------------10")
 
 		ooheadRecord = database.table("OOHEAD").index("00").selectAllFields().build()
 		ooheadContainer = ooheadRecord.createContainer()

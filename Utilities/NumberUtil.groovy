@@ -45,7 +45,7 @@ public class NumberUtil extends ExtendM3Utility {
 	 if (d.isPresent()) {
 	   return Optional.of(d.get().toInteger())
 	 }
-	 return Optional.empty();
+	 return Optional.empty()
    }
  
    /**

@@ -108,20 +108,6 @@ public class Add extends ExtendM3Transaction {
 			return
 		}
 
-		/*if(adrt == 3) {
-		 DBAction ocusmaRecord = database.table("OCUSMA").index("00").selection("OKADID").build()
-		 DBContainer ocusmaContainer = ocusmaRecord.createContainer()
-		 ocusmaContainer.setInt("OKCONO", cono)
-		 ocusmaContainer.setString("OKCUNO",ooheadContainer.getString("OADECU") )
-		 if(ocusmaRecord.read(ocusmaContainer)) {
-		 ooadreContainer.setString("ODADID", ocusmaContainer.getString("OKADID"))
-		 }
-		 if(ooadreRecord.read(ooheadContainer)) {
-		 mi.error("Enregistrement existe déjà.")
-		 return
-		 }
-		 }*/
-
 		if(wf01 != null && (wf01 <0 || wf01 > 1)) {
 			mi.error("Le champ WF01 ne prend comme valeur que 0 ou 1")
 			return
@@ -167,7 +153,6 @@ public class Add extends ExtendM3Transaction {
 			}
 		}
 
-		logger.info("------------01")
 		DBAction ocusadRecord = database.table("OCUSAD").index("00").build()
 		DBContainer ocusadContainer = ocusadRecord.createContainer()
 		ocusadContainer.setInt("OPCONO", cono)
@@ -192,7 +177,6 @@ public class Add extends ExtendM3Transaction {
 			return
 		}
 
-		logger.info("------------02")
 		if(adrt == 1 && !advi.isBlank()) {
 			DBAction cishviRecord = database.table("CISHVI").index("00").build()
 			DBContainer cishviContainer = cishviRecord.createContainer()
@@ -219,7 +203,6 @@ public class Add extends ExtendM3Transaction {
 			}
 
 		}
-		logger.info("------------03")
 
 		if(program.getLDAZD().get("MXDR") == 1) {
 			if(adid.isBlank() && edes.isBlank() && adrt == 1) {
@@ -246,12 +229,9 @@ public class Add extends ExtendM3Transaction {
 		if(foundOodflt) {
 			defaultRoute = oodfltContainer.getString("UJROUT")
 		}
-		logger.info("------------04")
 
 		if(adrt == 1) {
-			if(!ooheadContainer.getString("OAADID").equals(adid) || !ooheadContainer.getString("OAMODL").equals(modl) /*||
-			 !ooadreContainer.getString("ODEDES").equals(edes) || !ooadreContainer.getString("ODPONO").equals(pono) ||
-			 !ooadreContainer.getString("ODECAR").equals(ecar)*/) { //Test pour màj
+			if(!ooheadContainer.getString("OAADID").equals(adid) || !ooheadContainer.getString("OAMODL").equals(modl)) { //Test pour màj
 				if(foundOodflt && ( defaultRoute.equals("*SYSH") || defaultRoute.equals("*MSYSH") )) {
 					if(!validRoute(cono, rout, rodn, modl))
 						return
@@ -280,10 +260,7 @@ public class Add extends ExtendM3Transaction {
 				if(ocusmaRecord.read(ocusmaContainer)) {
 					cunm = ocusmaContainer.getString("OKCUNM")
 				}
-			}/*else { //seulement en update
-			 cunm = ooadreContainer.getString("ODCUNM")
-			 }*/
-
+			}
 		}
 
 		// Check that country code exist
@@ -320,7 +297,6 @@ public class Add extends ExtendM3Transaction {
 			mi.error("State is mandatorry")
 			return
 		}
-		logger.info("------------05")
 
 		// Postal Code validation
 		if(yhvpon.equals("1")) {
@@ -358,7 +334,6 @@ public class Add extends ExtendM3Transaction {
 		}
 
 
-		logger.info("------------06")
 		if(!adft.isBlank()) {
 			DBAction csyadfRecord = database.table("CSYADF").index("00").selection("CXADED","CXADE4","CXNOOC").build()
 			DBContainer csyadfContainer = csyadfRecord.createContainer()
@@ -405,16 +380,6 @@ public class Add extends ExtendM3Transaction {
 				cua4 = formatedAdr4
 			}
 		}
-		logger.info("------------07")
-
-		//   Check Country Address change
-		/*if (!cscd.isBlank() &&
-		 !vrno.isBlank() &&
-		 !warningGiven) {
-		 //   MSGID=S_01262 WARNING - The country has been changed. Check whether the existing VAT registration number should be replaced.
-		 mi.error(message.getMessage("S_01262", null))
-		 return
-		 }*/
 
 		//   Check VAT registration depending on parm CRS082
 		if(!vrno.isBlank() && !pvcmcn.isBlank() ) {
@@ -444,7 +409,6 @@ public class Add extends ExtendM3Transaction {
 				return
 			}
 		}
-		logger.info("------------08")
 
 		//   Validity on route departure
 		if(rout.isBlank() && rodn == 0 && !defaultRoute.equals("*SYSH") && !defaultRoute.equals("*MSYSH") ||
@@ -479,7 +443,6 @@ public class Add extends ExtendM3Transaction {
 			}
 		}
 
-		logger.info("------------09")
 		//   Validity on mode of delivery
 		if(adrt!=3) {
 			csytabRecord = database.table("CSYTAB").index("10").build()
@@ -547,7 +510,6 @@ public class Add extends ExtendM3Transaction {
 			}
 
 		}
-		logger.info("------------10")
 
 		ooadreContainer.setInt("ODCONO", cono)
 		ooadreContainer.setString("ODDIVI", divi)

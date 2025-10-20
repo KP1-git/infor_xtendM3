@@ -7,12 +7,12 @@
  * 20250806                     d.decosterd@hetic3.fr     		création
  */
 public class Get extends ExtendM3Transaction {
-	private final MIAPI mi;
+	private final MIAPI mi
 	private final DatabaseAPI database
 	private final LoggerAPI logger
 
 	public Get(MIAPI mi, DatabaseAPI database, LoggerAPI logger) {
-		this.mi = mi;
+		this.mi = mi
 		this.database = database
 		this.logger = logger
 	}
@@ -57,23 +57,6 @@ public class Get extends ExtendM3Transaction {
 		ooadreContainer.setString("ODORNO", orno)
 		ooadreContainer.setInt("ODADRT", adrt)
 		ooadreContainer.setString("ODADID", ooheadContainer.getString("OAADID"))
-		/*if(adrt == 1) {
-			ooadreContainer.setString("ODADID", ooheadContainer.getString("OAADID"))
-		}
-		if(adrt == 3) {
-			if(!ooadreRecord.read(ooadreContainer)) {
-				DBAction ocusmaRecord = database.table("OCUSMA").index("00").selection("OKADID").build()
-				DBContainer ocusmaContainer = ocusmaRecord.createContainer()
-				ocusmaContainer.setInt("OKCONO", cono)
-				ocusmaContainer.setString("OKCUNO",ooheadContainer.getString("OADECU") )
-				if(ocusmaRecord.read(ocusmaContainer)) {
-					logger.info("OKADID:"+ocusmaContainer.getString("OKADID"))
-					ooadreContainer.setString("ODADID", ocusmaContainer.getString("OKADID"))
-				}
-			}else {
-				ooadreContainer.setString("ODADID", ooheadContainer.getString("OAADID"))
-			}
-		}*/
 
 		boolean foundLevel1 = false
 
@@ -94,27 +77,6 @@ public class Get extends ExtendM3Transaction {
 			mi.error("L'enregistrement n'existe pas.")
 			return
 		}
-
-		/*if(!foundLevel1) {
-			String xxcuno = "";
-			if(adrt == 3) {
-				if(ooheadContainer.getString("OAINRC").isBlank())
-					ooadreContainer.setString("ODADID", ooheadContainer.getString("OAADID"))
-				xxcuno = ooheadContainer.getString("OAINRC")
-			}else {
-				if(ooheadContainer.getString("OADECU").isBlank()) {
-					ooadreContainer.setString("ODADID", ooheadContainer.getString("OAADID"))
-				}
-				xxcuno = ooheadContainer.getString("OACUNO")
-			}
-
-			if(!ooadreContainer.getString("ODADID").isBlank()) {
-				useValuesFromOcusad(ooadreContainer, cono, xxcuno)
-			}else {
-				useValuesFromOcusma(ooadreContainer, cono, xxcuno)
-			}
-			completeWithOcusma(ooadreContainer, cono, xxcuno)
-		}*/
 
 		if(adrt == 1) {
 			ooadreContainer.setString("ODMODL", ooheadContainer.getString("OAMODL"))
@@ -171,18 +133,6 @@ public class Get extends ExtendM3Transaction {
 		}
 
 
-		/*mi.getOutData().put("MEAL", ooadreContainer.getString("ODMEAL"))
-		 mi.getOutData().put("ECF1", ooadreContainer.getString("ODECF1"))
-		 mi.getOutData().put("ECF2", ooadreContainer.getString("ODECF2"))
-		 mi.getOutData().put("ECF3", ooadreContainer.getString("ODECF3"))
-		 mi.getOutData().put("ECF4", ooadreContainer.getString("ODECF4"))
-		 mi.getOutData().put("GEOC", ooadreContainer.getInt("ODGEOC").toString())
-		 mi.getOutData().put("TAXC", ooadreContainer.getString("ODTAXC"))
-		 mi.getOutData().put("TXID", ooadreContainer.getLong("ODTXID").toString())
-		 mi.getOutData().put("MODL", ooadreContainer.getString("ODMODL"))
-		 mi.getOutData().put("TEDL", ooadreContainer.getString("ODTEDL"))
-		 mi.getOutData().put("TEL2", ooadreContainer.getString("ODTEL2"))
-		 mi.getOutData().put("BOP1", ooadreContainer.getString("ODBOP1"))*/
 		mi.write()
 	}
 

@@ -7,12 +7,12 @@
  * 20250808                     d.decosterd@hetic3.fr     		création
  */
 public class List extends ExtendM3Transaction {
-	private final MIAPI mi;
+	private final MIAPI mi
 	private final DatabaseAPI database
 	private final MICallerAPI miCaller
 
 	public List(MIAPI mi, DatabaseAPI database, MICallerAPI miCaller) {
-		this.mi = mi;
+		this.mi = mi
 		this.database = database
 		this.miCaller = miCaller
 	}
@@ -87,6 +87,6 @@ public class List extends ExtendM3Transaction {
 				mi.getOutData().put("DSTX", response.get("DSTX"))
 				mi.write()
 			}
-		});
+		})
 	}
 }
