@@ -35,7 +35,7 @@ public class DateUtil extends ExtendM3Utility {
    * @return date
    */
   public String currentDateY6AsString() {
-	return LocalDate.now().format(DateTimeFormatter.ofPattern("yyMMdd"));
+	return LocalDate.now().format(DateTimeFormatter.ofPattern("yyMMdd"))
   }
 
   /**
@@ -43,7 +43,7 @@ public class DateUtil extends ExtendM3Utility {
    * @return date
    */
   public int currentDateY6AsInt() {
-	return Integer.valueOf(currentDateY6AsString());
+	return Integer.valueOf(currentDateY6AsString())
   }
 
   /**
@@ -51,7 +51,7 @@ public class DateUtil extends ExtendM3Utility {
    * @return time
    */
   public String currentTimeAsString() {
-	return LocalDateTime.now().format(DateTimeFormatter.ofPattern("HHmmss"));
+	return LocalDateTime.now().format(DateTimeFormatter.ofPattern("HHmmss"))
   }
 
   /**
@@ -59,7 +59,7 @@ public class DateUtil extends ExtendM3Utility {
    * @return time
    */
   public int currentTimeAsInt() {
-	return Integer.valueOf(currentTimeAsString());
+	return Integer.valueOf(currentTimeAsString())
   }
 
   /**
@@ -67,7 +67,7 @@ public class DateUtil extends ExtendM3Utility {
    * @return epoch milliseconds
    */
   public long currentEpochMilliseconds() {
-	return Instant.now().toEpochMilli();
+	return Instant.now().toEpochMilli()
   }
 
   /**
@@ -75,7 +75,7 @@ public class DateUtil extends ExtendM3Utility {
    * @return epoch seconds
    */
   public long currentEpochSeconds() {
-	return Instant.now().getEpochSecond();
+	return Instant.now().getEpochSecond()
   }
 
   /**

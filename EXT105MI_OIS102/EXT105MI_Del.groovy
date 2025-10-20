@@ -7,12 +7,12 @@
  * 20250818                     d.decosterd@hetic3.fr     		création
  */
 public class Del extends ExtendM3Transaction {
-	private final MIAPI mi;
+	private final MIAPI mi
 	private final DatabaseAPI database
 	private final LoggerAPI logger
 
 	public Del(MIAPI mi, DatabaseAPI database, LoggerAPI logger) {
-		this.mi = mi;
+		this.mi = mi
 		this.database = database
 		this.logger = logger
 	}
