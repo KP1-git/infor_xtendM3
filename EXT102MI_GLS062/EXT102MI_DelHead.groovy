@@ -7,13 +7,13 @@
  * 20250623                     d.decosterd@hetic3.fr     		création
  */
 public class DelHead extends ExtendM3Transaction {
-	private final MIAPI mi;
+	private final MIAPI mi
 	private final DatabaseAPI database
 	private final ProgramAPI program
 	private final UtilityAPI utility
 
 	public DelHead(MIAPI mi, DatabaseAPI database, ProgramAPI program, UtilityAPI utility) {
-		this.mi = mi;
+		this.mi = mi
 		this.database = database
 		this.program = program
 		this.utility = utility
@@ -45,8 +45,8 @@ public class DelHead extends ExtendM3Transaction {
 		fgdithContainer.setString("BZDIVI", divi)
 		fgdithContainer.setString("BZTTAB", ttab)
 
-		boolean deleted = false;
-		Long txid = 0;
+		boolean deleted = false
+		Long txid = 0
 		boolean found = fgdithRecord.readLock(fgdithContainer, { LockedResult delRecoord ->
 			txid = delRecoord.getLong("BZTXID")
 			deleted = delRecoord.delete()

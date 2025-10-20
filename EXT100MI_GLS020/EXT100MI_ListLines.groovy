@@ -46,7 +46,7 @@ public class ListLines extends ExtendM3Transaction {
 		faaccbContainer.setInt("FBRCNO", rcno)
 
 		int nrOfRecords = mi.getMaxRecords() <= 0 || mi.getMaxRecords() >= 10000? 10000: mi.getMaxRecords()
-		faaccbRecord.readAll(faaccbContainer, 2, nrOfRecords,{ DBContainer container ->
+		faaccbRecord.readAll(faaccbContainer, 3, nrOfRecords,{ DBContainer container ->
 			mi.getOutData().put("CONO", cono.toString())
 			mi.getOutData().put("DIVI", divi)
 			mi.getOutData().put("RCNO", container.get("FBRCNO").toString())

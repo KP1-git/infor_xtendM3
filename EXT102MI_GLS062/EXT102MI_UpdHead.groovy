@@ -7,7 +7,7 @@
  * 20250624                     d.decosterd@hetic3.fr     		création
  */
 public class UpdHead extends ExtendM3Transaction {
-	private final MIAPI mi;
+	private final MIAPI mi
 	private final DatabaseAPI database
 	private final ProgramAPI program
 	private final UtilityAPI utility
@@ -46,12 +46,12 @@ public class UpdHead extends ExtendM3Transaction {
 
 		if( dimt != null && (dimt < 1 || dimt > 3)) {
 			mi.error("Méthode de reventilation "+dimt+" est invalide.")
-			return;
+			return
 		}
 
 		if(bdtp != null && (bdtp <1 || bdtp > 7)) {
 			mi.error("Type d'affectation "+bdtp+" est invalide.")
-			return;
+			return
 		}
 
 		if(bdpc != null) {

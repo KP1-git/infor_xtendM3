@@ -7,13 +7,13 @@
  * 20250624                     d.decosterd@hetic3.fr     		création
  */
 public class ListHead extends ExtendM3Transaction {
-	private final MIAPI mi;
+	private final MIAPI mi
 	private final DatabaseAPI database
 	private final ProgramAPI program
 	private final UtilityAPI utility
 
 	public ListHead(MIAPI mi, DatabaseAPI database, ProgramAPI program, UtilityAPI utility) {
-		this.mi = mi;
+		this.mi = mi
 		this.database = database
 		this.program = program
 		this.utility = utility

@@ -209,23 +209,23 @@ public class UpdLine extends ExtendM3Transaction {
 
 
 		fgdibdRecordForCheck.readAll(fgdibdContainerForCheck, 3, 9999,{ DBContainer container ->
-			if(!container.get("BYBBLN").toString().equals(bbln.toString())) {
+			if(!container.get("BYBBLN").toString().equals(bbln.toString()) && !container.get("BYBTAB").equals(btab.toString())) {
 				//FROM
-				fromRecordbfa1 = container.get("BYBFA1").toString()
-				fromRecordbfa2 = container.get("BYBFA2").toString()
-				fromRecordbfa3 = container.get("BYBFA3").toString()
-				fromRecordbfa4 = container.get("BYBFA4").toString()
-				fromRecordbfa5 = container.get("BYBFA5").toString()
-				fromRecordbfa6 = container.get("BYBFA6").toString()
-				fromRecordbfa7 = container.get("BYBFA7").toString()
+				fromRecordbfa1 = container.get("BYBFA1").toString().trim()
+				fromRecordbfa2 = container.get("BYBFA2").toString().trim()
+				fromRecordbfa3 = container.get("BYBFA3").toString().trim()
+				fromRecordbfa4 = container.get("BYBFA4").toString().trim()
+				fromRecordbfa5 = container.get("BYBFA5").toString().trim()
+				fromRecordbfa6 = container.get("BYBFA6").toString().trim()
+				fromRecordbfa7 = container.get("BYBFA7").toString().trim()
 				//TO
-				fromRecordbta1 = container.get("BYBTA1").toString()
-				fromRecordbta2 = container.get("BYBTA2").toString()
-				fromRecordbta3 = container.get("BYBTA3").toString()
-				fromRecordbta4 = container.get("BYBTA4").toString()
-				fromRecordbta5 = container.get("BYBTA5").toString()
-				fromRecordbta6 = container.get("BYBTA6").toString()
-				fromRecordbta7 = container.get("BYBTA7").toString()
+				fromRecordbta1 = container.get("BYBTA1").toString().trim()
+				fromRecordbta2 = container.get("BYBTA2").toString().trim()
+				fromRecordbta3 = container.get("BYBTA3").toString().trim()
+				fromRecordbta4 = container.get("BYBTA4").toString().trim()
+				fromRecordbta5 = container.get("BYBTA5").toString().trim()
+				fromRecordbta6 = container.get("BYBTA6").toString().trim()
+				fromRecordbta7 = container.get("BYBTA7").toString().trim()
 
 				if(
 				bfa1.compareTo(fromRecordbfa1) < 0 &&
