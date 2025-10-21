@@ -123,7 +123,7 @@ public class AddHead extends ExtendM3Transaction {
 				return result
 			}
 			parm = response.PARM
-		});
+		})
 		
 		
 		return Character.getNumericValue(parm.charAt(88))
