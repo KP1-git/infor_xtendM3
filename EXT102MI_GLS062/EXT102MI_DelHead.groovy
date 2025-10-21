@@ -64,7 +64,8 @@ public class DelHead extends ExtendM3Transaction {
 			fgditdContainer.setString("BEDIVI", divi)
 			fgditdContainer.setString("BETTAB", ttab)
 
-			fgditdRecord.readAll(fgditdContainer, 3, 10000,{ DBContainer container ->
+			int nrOfRecords = mi.getMaxRecords() <= 0 || mi.getMaxRecords() >= 10000 ? 10000: mi.getMaxRecords()
+			fgditdRecord.readAll(fgditdContainer, 3, nrOfRecords,{ DBContainer container ->
 				fgditdRecord.readLock(container, { LockedResult lockedResult ->
 					lockedResult.delete()
 				})

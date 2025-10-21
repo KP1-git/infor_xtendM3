@@ -13,7 +13,7 @@ public class UpdHead extends ExtendM3Transaction {
 	private final UtilityAPI utility
 
 	public UpdHead(MIAPI mi, DatabaseAPI database, ProgramAPI program, UtilityAPI utility) {
-		this.mi = mi;
+		this.mi = mi
 		this.database = database
 		this.program = program
 		this.utility = utility
@@ -91,13 +91,13 @@ public class UpdHead extends ExtendM3Transaction {
 				updateRecord.setInt("BZBDTP", bdtp)
 			if(bdpc != null)
 				updateRecord.set("BZBDPC", bdpc)
-			int CHNO = updateRecord.getInt("BZCHNO");
-			if(CHNO== 999) {CHNO = 0;}
-			CHNO++;
-			updateRecord.set("BZLMDT", (Integer) utility.call("DateUtil", "currentDateY8AsInt"));
-			updateRecord.set("BZCHID", program.getUser());
-			updateRecord.setInt("BZCHNO", CHNO);
-			updateRecord.update();
+			int CHNO = updateRecord.getInt("BZCHNO")
+			if(CHNO== 999) {CHNO = 0}
+			CHNO++
+			updateRecord.set("BZLMDT", (Integer) utility.call("DateUtil", "currentDateY8AsInt"))
+			updateRecord.set("BZCHID", program.getUser())
+			updateRecord.setInt("BZCHNO", CHNO)
+			updateRecord.update()
 		})
 
 		if(!updatable){
