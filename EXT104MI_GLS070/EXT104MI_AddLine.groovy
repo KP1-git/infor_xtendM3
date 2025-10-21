@@ -128,7 +128,7 @@ public class AddLine extends ExtendM3Transaction {
 			return
 		}
 
-		Integer aetp = 0;
+		Integer aetp = 0
 		DBAction fgdibhRecord = database.table("FGDIBH").index("00").selection("BXAETP").build()
 		DBContainer fgdibhContainer = fgdibhRecord.createContainer()
 		fgdibhContainer.setInt("BXCONO", cono)
@@ -138,7 +138,7 @@ public class AddLine extends ExtendM3Transaction {
 			mi.error("table affectation de base n'existe pas.")
 			return
 		}else {
-			aetp = fgdibhContainer.get("BXAETP");
+			aetp = fgdibhContainer.get("BXAETP")
 			if(aetp == 2 && !cflv.isBlank()) {
 				mi.error("CFLV doit être à blanc avec AETP = 2 en GLS060")
 				return
@@ -149,7 +149,7 @@ public class AddLine extends ExtendM3Transaction {
 				return
 			}
 
-			Integer attp = 0;
+			Integer attp = 0
 			DBAction fgdistRecord = database.table("FGDIST").index("00").selection("BUATTP").build()
 			DBContainer fgdistContainer = fgdistRecord.createContainer()
 			fgdistContainer.setInt("BUCONO", cono)
@@ -157,7 +157,7 @@ public class AddLine extends ExtendM3Transaction {
 			fgdistContainer.setString("BUDTMP", dtmp)
 			fgdistContainer.setInt("BUDSPR", dspr)
 			if(fgdistRecord.read(fgdistContainer)){
-				attp = fgdistContainer.get("BUATTP");
+				attp = fgdistContainer.get("BUATTP")
 				if(aetp == 2 && attp != 2) {
 					mi.error("Si Base d'affection est de type 2, modèle Affectation doit être égal à 1")
 					return
@@ -249,6 +249,9 @@ public class AddLine extends ExtendM3Transaction {
 
 		String stab = ""
 		String rdri = ""
+		
+		int nrOfRecords = mi.getMaxRecords() <= 0 || mi.getMaxRecords() >= 10000 ? 10000: mi.getMaxRecords()
+		
 		if(casf > 0 && casf <= 5) {
 			DBAction fgditdRecord = database.table("FGDITD").index("00").selection("BESTAB").build()
 			DBContainer fgditdContainer = fgditdRecord.createContainer()
@@ -257,7 +260,7 @@ public class AddLine extends ExtendM3Transaction {
 			fgditdContainer.setString("BETTAB", ttab)
 
 
-			fgditdRecord.readAll(fgditdContainer, 3, 9999,{ DBContainer container ->
+			fgditdRecord.readAll(fgditdContainer, 3, nrOfRecords,{ DBContainer container ->
 				stab = container.get("BESTAB").toString()
 				DBAction fgdishRecord = database.table("FGDISH").index("00").selection("BFRDRI").build()
 				DBContainer fgdishContainer = fgdishRecord.createContainer()

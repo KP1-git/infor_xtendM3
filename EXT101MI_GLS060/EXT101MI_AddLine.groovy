@@ -209,8 +209,10 @@ public class AddLine extends ExtendM3Transaction {
 		fgdibdContainerForCheck.setString("BYDIVI", divi)
 		fgdibdContainerForCheck.setString("BYBTAB", btab)
 		
+		int nrOfRecords = mi.getMaxRecords() <= 0 || mi.getMaxRecords() >= 10000 ? 10000: mi.getMaxRecords()
+		
 
-		fgdibdRecordForCheck.readAll(fgdibdContainerForCheck, 3, 9999,{ DBContainer container ->
+		fgdibdRecordForCheck.readAll(fgdibdContainerForCheck, 3, nrOfRecords,{ DBContainer container ->
 			//if(!container.get("BYBBLN").toString().equals(bbln.toString())) {
 				//FROM
 				fromRecordbfa1 = container.get("BYBFA1").toString().trim()
@@ -465,6 +467,6 @@ public class AddLine extends ExtendM3Transaction {
 			}else {
 				return 1
 			}
-		});
+		})
 	}
 }

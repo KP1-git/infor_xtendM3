@@ -217,8 +217,9 @@ public class AddLine extends ExtendM3Transaction {
 		faaccbContainerForCheck.setInt("FBCONO", cono)
 		faaccbContainerForCheck.setString("FBDIVI", divi)
 		//faaccbContainerForCheck.setInt("FBRCNO", rcno)
-
-		faaccbRecordForCheck.readAll(faaccbContainerForCheck, 2, 9999,{ DBContainer container ->
+		
+		int nrOfRecords = mi.getMaxRecords() <= 0 || mi.getMaxRecords() >= 10000 ? 10000: mi.getMaxRecords()
+		faaccbRecordForCheck.readAll(faaccbContainerForCheck, 2, nrOfRecords,{ DBContainer container ->
 			//if(!container.get("FBRGLN").toString().equals(rgln.toString())) {
 			//FROM
 			fromRecordbfa1 = container.get("FBBFA1").toString().trim()

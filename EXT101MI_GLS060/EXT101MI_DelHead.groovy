@@ -62,6 +62,8 @@ public class DelHead extends ExtendM3Transaction {
 			deleted = delRecoord.delete()
 		})
 
+		int nrOfRecords = mi.getMaxRecords() <= 0 || mi.getMaxRecords() >= 10000 ? 10000: mi.getMaxRecords()
+		
 		if(!found)
 		{
 			mi.error("L'enregistrement n'existe pas.")
@@ -73,7 +75,7 @@ public class DelHead extends ExtendM3Transaction {
 			fgdibdContainer.setString("BYDIVI", divi)
 			fgdibdContainer.setString("BYBTAB", btab)
 
-			fgdibdRecord.readAll(fgdibdContainer, 3, 10000,{ DBContainer container ->
+			fgdibdRecord.readAll(fgdibdContainer, 3, nrOfRecords,{ DBContainer container ->
 				fgdibdRecord.readLock(container, { LockedResult lockedResult ->
 					lockedResult.delete()
 				})
