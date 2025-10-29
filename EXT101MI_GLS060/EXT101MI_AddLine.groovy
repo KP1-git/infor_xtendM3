@@ -4,7 +4,7 @@
  * Name: EXT101MI.AddLine
  * Description: Add a record in FGDIBD
  * Date                         Changed By                    Description
- * 20250623                     a.ferre@hetic3.fr     		création
+ * 20250623                     a.ferre@hetic3.fr     		création.
  */
 public class AddLine extends ExtendM3Transaction {
 	private final MIAPI mi

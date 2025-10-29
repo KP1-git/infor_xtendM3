@@ -29,6 +29,7 @@ public class AddLine extends ExtendM3Transaction {
 		Integer rcno = mi.in.get("RCNO")
 		Integer rgln = mi.in.get("RGLN")
 		String  tx15 = (mi.inData.get("TX15") == null) ? "" : mi.inData.get("TX15").trim()
+		String  fdiv = (mi.inData.get("FDIV") == null) ? "" : mi.inData.get("FDIV").trim()
 		String  bfa1 = (mi.inData.get("BFA1") == null) ? "" : mi.inData.get("BFA1").trim()
 		String  bfa2 = (mi.inData.get("BFA2") == null) ? "" : mi.inData.get("BFA2").trim()
 		String  bfa3 = (mi.inData.get("BFA3") == null) ? "" : mi.inData.get("BFA3").trim()
@@ -119,6 +120,14 @@ public class AddLine extends ExtendM3Transaction {
 		if(tx15.isBlank()) {
 			mi.error("Nom doit être renseigné.")
 			return
+		}
+		
+		if(fdiv.isBlank()) {
+			fdiv = divi;
+		}
+		
+		if(tdiv.isBlank()) {
+			tdiv = divi;
 		}
 
 		if(bta1.isBlank()) {
@@ -448,6 +457,7 @@ public class AddLine extends ExtendM3Transaction {
 
 		if(!faaccbRecord.read(faaccbContainer)){
 			faaccbContainer.setString("FBTX15", tx15)
+			faaccbContainer.setString("FBFDIV", fdiv)
 			faaccbContainer.setString("FBBFA1", bfa1)
 			faaccbContainer.setString("FBBFA2", bfa2)
 			faaccbContainer.setString("FBBFA3", bfa3)
@@ -455,6 +465,7 @@ public class AddLine extends ExtendM3Transaction {
 			faaccbContainer.setString("FBBFA5", bfa5)
 			faaccbContainer.setString("FBBFA6", bfa6)
 			faaccbContainer.setString("FBBFA7", bfa7)
+			faaccbContainer.setString("FBTDIV", tdiv)
 			faaccbContainer.setString("FBBTA1", bta1)
 			faaccbContainer.setString("FBBTA2", xxbta2)
 			faaccbContainer.setString("FBBTA3", xxbta3)
