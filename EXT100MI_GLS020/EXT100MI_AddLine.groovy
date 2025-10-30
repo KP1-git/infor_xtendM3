@@ -466,7 +466,7 @@ public class AddLine extends ExtendM3Transaction {
 			faaccbContainer.setString("FBBFA6", bfa6)
 			faaccbContainer.setString("FBBFA7", bfa7)
 			faaccbContainer.setString("FBTDIV", tdiv)
-			faaccbContainer.setString("FBBTA1", bta1)
+			faaccbContainer.setString("FBBTA1", xxbta1)
 			faaccbContainer.setString("FBBTA2", xxbta2)
 			faaccbContainer.setString("FBBTA3", xxbta3)
 			faaccbContainer.setString("FBBTA4", xxbta4)
