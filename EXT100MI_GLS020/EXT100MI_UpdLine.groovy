@@ -27,6 +27,7 @@ public class UpdLine extends ExtendM3Transaction {
 		Integer rcno = mi.in.get("RCNO")
 		Integer rgln = mi.in.get("RGLN")
 		String  tx15 = (mi.inData.get("TX15") == null) ? "" : mi.inData.get("TX15").trim()
+		String  fdiv = (mi.inData.get("FDIV") == null) ? "" : mi.inData.get("FDIV").trim()
 		String  bfa1 = (mi.inData.get("BFA1") == null) ? "" : mi.inData.get("BFA1").trim()
 		String  bfa2 = (mi.inData.get("BFA2") == null) ? "" : mi.inData.get("BFA2").trim()
 		String  bfa3 = (mi.inData.get("BFA3") == null) ? "" : mi.inData.get("BFA3").trim()
@@ -102,6 +103,14 @@ public class UpdLine extends ExtendM3Transaction {
 		if(divi.isBlank()) {
 			mi.error("L'api devrait être utilisé localement, DIVI obligatoire.")
 			return
+		}
+		
+		if(fdiv.isBlank()) {
+			fdiv = divi;
+		}
+		
+		if(tdiv.isBlank()) {
+			tdiv = divi;
 		}
 
 		if(rcno == null || rcno == 0) {
@@ -438,6 +447,7 @@ public class UpdLine extends ExtendM3Transaction {
 
 		boolean updatable = faaccbRecord.readLock(faaccbContainer, { LockedResult updateRecoord ->
 			updateRecoord.setString("FBTX15", tx15)
+			updateRecoord.setString("FBFDIV", fdiv)
 			updateRecoord.setString("FBBFA1", bfa1)
 			updateRecoord.setString("FBBFA2", bfa2)
 			updateRecoord.setString("FBBFA3", bfa3)
@@ -445,6 +455,7 @@ public class UpdLine extends ExtendM3Transaction {
 			updateRecoord.setString("FBBFA5", bfa5)
 			updateRecoord.setString("FBBFA6", bfa6)
 			updateRecoord.setString("FBBFA7", bfa7)
+			updateRecoord.setString("FBTDIV", tdiv)
 			updateRecoord.setString("FBBTA1", bta1)
 			updateRecoord.setString("FBBTA2", bta2)
 			updateRecoord.setString("FBBTA3", bta3)
