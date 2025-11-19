@@ -12,15 +12,13 @@ public class Upd extends ExtendM3Transaction {
 	private final ProgramAPI program
 	private final MessageAPI message
 	private final UtilityAPI utility
-	private final LoggerAPI logger
 
-	public Upd(MIAPI mi, DatabaseAPI database, ProgramAPI program, MessageAPI message, UtilityAPI utility, LoggerAPI logger) {
+	public Upd(MIAPI mi, DatabaseAPI database, ProgramAPI program, MessageAPI message, UtilityAPI utility) {
 		this.mi = mi
 		this.database = database
 		this.program = program
 		this.message = message
 		this.utility = utility
-		this.logger = logger
 	}
 
 	public void main() {
