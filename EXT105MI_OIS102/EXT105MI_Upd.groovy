@@ -5,6 +5,7 @@
  * Description: Update an addressesfrom a customer order
  * Date                         Changed By                    Description
  * 20250818                     d.decosterd@hetic3.fr     		création
+ * 20251125						 d.decosterd@hetic3.fr			remove unused variable ooadreRecord and ooadreContainer
  */
 public class Upd extends ExtendM3Transaction {
 	private final MIAPI mi
@@ -552,8 +553,6 @@ public class Upd extends ExtendM3Transaction {
 
 		}
 
-		ooheadRecord = database.table("OOHEAD").index("00").selectAllFields().build()
-		ooheadContainer = ooheadRecord.createContainer()
 		ooadreContainer.setInt("ODCONO", cono)
 		ooadreContainer.setString("ODORNO", orno)
 		ooadreContainer.setInt("ODADRT", adrt)

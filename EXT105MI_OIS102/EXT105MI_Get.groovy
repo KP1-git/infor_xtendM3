@@ -5,6 +5,7 @@
  * Description: Get address for customer order
  * Date                         Changed By                    Description
  * 20250806                     d.decosterd@hetic3.fr     		création
+ * 20251125						d.decosterd@hetic3.fr 			remove unused function useValuesFromOcusad() and useValuesFromOcusma()
  */
 public class Get extends ExtendM3Transaction {
 	private final MIAPI mi
@@ -186,96 +187,5 @@ public class Get extends ExtendM3Transaction {
 			if(ooadreContainer.getString("ODTAXC").isBlank())
 				ooadreContainer.setString("ODTAXC", ocusmaContainer.getString("OKTAXC"))
 		}
-	}
-
-	/**
-	 * Get address from OCUSAD
-	 * @param ooadreContainer The DBContainer to replace value
-	 * @param cono The cono value
-	 * @param cuno The cuno value
-	 * @return
-	 */
-	private useValuesFromOcusad(DBContainer ooadreContainer, int cono, String cuno) {
-		DBAction ocusadRecord = database.table("OCUSAD").index("00").selection("OPCUNM","OPCUA1","OPCUA2","OPCUA3","OPCUA4","OPPONO","OPPHNO","OPTFNO","OPYREF","OPMEAL","OPCSCD","OPVRNO","OPEDES","OPROUT","OPRODN","OPULZO","OPECAR","OPHAFE","OPRASN","OPFRCO","OPSPLE","OPMODL","OPTEDL","OPTOWN","OPADVI","OPGEOC","OPTAXC").build()
-		DBContainer ocusadContainer = ocusadRecord.createContainer()
-		ocusadContainer.setInt("OPCONO", cono)
-		ocusadContainer.setString("OPCUNO",cuno)
-		ocusadContainer.setInt("OPADRT", ooadreContainer.getInt("ODADRT"))
-		ocusadContainer.setString("OPADID",ooadreContainer.getString("ODADID"))
-		if(ocusadRecord.read(ocusadContainer)) {
-			ooadreContainer.setString("ODCUNM", ocusadContainer.getString("OPCUNM"))
-			ooadreContainer.setString("ODCUA1", ocusadContainer.getString("OPCUA1"))
-			ooadreContainer.setString("ODCUA2", ocusadContainer.getString("OPCUA2"))
-			ooadreContainer.setString("ODCUA3", ocusadContainer.getString("OPCUA3"))
-			ooadreContainer.setString("ODCUA4", ocusadContainer.getString("OPCUA4"))
-			ooadreContainer.setString("ODPONO", ocusadContainer.getString("OPPONO"))
-			ooadreContainer.setString("ODPHNO", ocusadContainer.getString("OPPHNO"))
-			ooadreContainer.setString("ODTFNO", ocusadContainer.getString("OPTFNO"))
-			ooadreContainer.setString("ODYREF", ocusadContainer.getString("OPYREF"))
-			ooadreContainer.setString("ODMEAL", ocusadContainer.getString("OPMEAL"))
-			ooadreContainer.setString("ODCSCD", ocusadContainer.getString("OPCSCD"))
-			ooadreContainer.setString("ODVRNO", ocusadContainer.getString("OPVRNO"))
-			ooadreContainer.setString("ODEDES", ocusadContainer.getString("OPEDES"))
-			ooadreContainer.setString("ODROUT", ocusadContainer.getString("OPROUT"))
-			ooadreContainer.setInt("ODRODN", ocusadContainer.getInt("OPRODN"))
-			ooadreContainer.setString("ODULZO", ocusadContainer.getString("OPULZO"))
-			ooadreContainer.setString("ODECAR", ocusadContainer.getString("OPECAR"))
-			ooadreContainer.setString("ODHAFE", ocusadContainer.getString("OPHAFE"))
-			ooadreContainer.setString("ODRASN", ocusadContainer.getString("OPRASN"))
-			ooadreContainer.setString("ODFRCO", ocusadContainer.getString("OPFRCO"))
-			ooadreContainer.setString("ODSPLE", ocusadContainer.getString("OPSPLE"))
-			ooadreContainer.setString("ODMODL", ocusadContainer.getString("OPMODL"))
-			ooadreContainer.setString("ODTEDL", ocusadContainer.getString("OPTEDL"))
-			ooadreContainer.setString("ODTOWN", ocusadContainer.getString("OPTOWN"))
-			ooadreContainer.setString("ODADVI", ocusadContainer.getString("OPADVI"))
-			ooadreContainer.setInt("ODGEOC", ocusadContainer.getInt("OPGEOC"))
-			ooadreContainer.setString("ODTAXC", ocusadContainer.getString("OPTAXC"))
-		}
-
-	}
-
-	/**
-	 * Get address from OCUSMA
-	 * @param ooadreContainer The DBContainer to replace value
-	 * @param cono The cono value
-	 * @param cuno The cuno value
-	 * @return
-	 */
-	private useValuesFromOcusma(DBContainer ooadreContainer, int cono, String cuno) {
-		DBAction ocusmaRecord = database.table("OCUSMA").index("00").selection("OKADID","OKCUNM","OKCUA1","OKCUA2","OKCUA3","OKCUA4","OKPONO","OKPHNO","OKTFNO","OKYREF","OKMEAL","OKCSCD","OKVRNO","OKEDES","OKROUT","OKRODN","OKULZO","OKECAR","OKHAFE","OKRASN","OKFRCO","OKSPLE","OKMODL","OKTEDL","OKTOWN","OKADVI","OKGEOC","OKTAXC",).build()
-		DBContainer ocusmaContainer = ocusmaRecord.createContainer()
-		ocusmaContainer.setInt("OKCONO", cono)
-		ocusmaContainer.setString("OKCUNO",cuno )
-		if(ocusmaRecord.read(ocusmaContainer)) {
-			ooadreContainer.setString("ODADID", ocusmaContainer.getString("OKADID"))
-			ooadreContainer.setString("ODCUNM", ocusmaContainer.getString("OKCUNM"))
-			ooadreContainer.setString("ODCUA1", ocusmaContainer.getString("OKCUA1"))
-			ooadreContainer.setString("ODCUA2", ocusmaContainer.getString("OKCUA2"))
-			ooadreContainer.setString("ODCUA3", ocusmaContainer.getString("OKCUA3"))
-			ooadreContainer.setString("ODCUA4", ocusmaContainer.getString("OKCUA4"))
-			ooadreContainer.setString("ODPONO", ocusmaContainer.getString("OKPONO"))
-			ooadreContainer.setString("ODPHNO", ocusmaContainer.getString("OKPHNO"))
-			ooadreContainer.setString("ODTFNO", ocusmaContainer.getString("OKTFNO"))
-			ooadreContainer.setString("ODYREF", ocusmaContainer.getString("OKYREF"))
-			ooadreContainer.setString("ODMEAL", ocusmaContainer.getString("OKMEAL"))
-			ooadreContainer.setString("ODCSCD", ocusmaContainer.getString("OKCSCD"))
-			ooadreContainer.setString("ODVRNO", ocusmaContainer.getString("OKVRNO"))
-			ooadreContainer.setString("ODEDES", ocusmaContainer.getString("OKEDES"))
-			ooadreContainer.setString("ODROUT", ocusmaContainer.getString("OKROUT"))
-			ooadreContainer.setInt("ODRODN", ocusmaContainer.getInt("OKRODN"))
-			ooadreContainer.setString("ODULZO", ocusmaContainer.getString("OKULZO"))
-			ooadreContainer.setString("ODECAR", ocusmaContainer.getString("OKECAR"))
-			ooadreContainer.setString("ODHAFE", ocusmaContainer.getString("OKHAFE"))
-			ooadreContainer.setString("ODRASN", ocusmaContainer.getString("OKRASN"))
-			ooadreContainer.setString("ODFRCO", ocusmaContainer.getString("OKFRCO"))
-			ooadreContainer.setString("ODSPLE", ocusmaContainer.getString("OKSPLE"))
-			ooadreContainer.setString("ODMODL", ocusmaContainer.getString("OKMODL"))
-			ooadreContainer.setString("ODTEDL", ocusmaContainer.getString("OKTEDL"))
-			ooadreContainer.setString("ODTOWN", ocusmaContainer.getString("OKTOWN"))
-			ooadreContainer.setString("ODADVI", ocusmaContainer.getString("OKADVI"))
-			ooadreContainer.setInt("ODGEOC", ocusmaContainer.getInt("OKGEOC"))
-			ooadreContainer.setString("ODTAXC", ocusmaContainer.getString("OKTAXC"))
-		}
-
 	}
 }
