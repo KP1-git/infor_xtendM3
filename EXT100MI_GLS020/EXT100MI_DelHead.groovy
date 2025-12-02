@@ -50,7 +50,6 @@ public class DelHead extends ExtendM3Transaction {
 			deleted = delRecoord.delete()
 		})
 
-		//int nrOfRecords = mi.getMaxRecords() <= 0 || mi.getMaxRecords() >= 10000 ? 10000: mi.getMaxRecords()
 		int nrOfRecords = 5000
 		if(!found)
 		{
