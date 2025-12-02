@@ -39,7 +39,6 @@ public class LstHead extends ExtendM3Transaction {
 		faacchContainer.setInt("FHCONO", cono)
 		faacchContainer.setString("FHDIVI", divi)
 
-		//int nrOfRecords = mi.getMaxRecords() <= 0 || mi.getMaxRecords() >= 10000 ? 10000: mi.getMaxRecords()
 		int nrOfRecords = 5000
 		faacchRecord.readAll(faacchContainer, 2, nrOfRecords,{ DBContainer container ->
 			mi.getOutData().put("CONO", cono.toString()) 

@@ -36,10 +36,21 @@ public class UpdHead extends ExtendM3Transaction {
 			return
 		}
 		
+
+		
 		if(rcno == null || rcno == 0) {
 			mi.error("Le numéro d'enregistrement est obligatoire.")
 			return
 		}
+		
+		if(tx40.isBlank()) {
+			mi.error("Description doit être renseignée.")
+			return
+		}
+		
+		if(tx15.isBlank()) {
+			tx15 = tx40.take(15)
+	   }
 		
 		DBAction faacchRecord = database.table("FAACCH").index("00").selection("FHCHNO").build()
 		DBContainer faacchContainer = faacchRecord.createContainer()

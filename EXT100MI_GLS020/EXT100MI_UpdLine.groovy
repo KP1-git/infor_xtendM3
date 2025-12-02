@@ -128,45 +128,31 @@ public class UpdLine extends ExtendM3Transaction {
 			return
 		}
 
-		if(bta1.isBlank()) {
-			//xxbta1 = sb
-		}else {
+		if(!bta1.isBlank()) {
 			xxbta1 = bta1
 		}
 
-		if(bta2.isBlank()) {
-			//xxbta2 = sb
-		}else {
+		if(!bta2.isBlank()) {
 			xxbta2 = bta2
 		}
 
-		if(bta3.isBlank()) {
-			//xxbta3 = sb
-		}else {
+		if(!bta3.isBlank()) {
 			xxbta3 = bta3
 		}
 
-		if(bta4.isBlank()) {
-			//xxbta4 = sb
-		}else {
+		if(!bta4.isBlank()) {
 			xxbta4 = bta4
 		}
 
-		if(bta5.isBlank()) {
-			//xxbta5 = sb
-		}else {
+		if(!bta5.isBlank()) {
 			xxbta5 = bta5
 		}
 
-		if(bta6.isBlank()) {
-			//xxbta6 = sb
-		}else {
+		if(!bta6.isBlank()) {
 			xxbta6 = bta6
 		}
 
-		if(bta7.isBlank()) {
-			//xxbta7 = sb
-		}else {
+		if(!bta7.isBlank()) {
 			xxbta7 = bta7
 		}
 
@@ -210,7 +196,7 @@ public class UpdLine extends ExtendM3Transaction {
 			return
 		}
 
-		if(nrc2 == null || nrc3 == null || nrc3 == null || nrc5 == null || nrc6 == null || nrc7 == null) {
+		if(nrc2 == null || nrc3 == null || nrc4 == null || nrc5 == null || nrc6 == null || nrc7 == null) {
 			mi.error("Les code remplacement NRC doivent être à 0 ou 1")
 			return
 		}
@@ -223,9 +209,7 @@ public class UpdLine extends ExtendM3Transaction {
 		DBContainer faaccbContainerForCheck = faaccbRecordForCheck.createContainer()
 		faaccbContainerForCheck.setInt("FBCONO", cono)
 		faaccbContainerForCheck.setString("FBDIVI", divi)
-		//faaccbContainerForCheck.setInt("FBRCNO", rcno)
 		
-		//int nrOfRecords = mi.getMaxRecords() <= 0 || mi.getMaxRecords() >= 10000 ? 10000: mi.getMaxRecords()
 		int nrOfRecords = 5000
 
 		faaccbRecordForCheck.readAll(faaccbContainerForCheck, 2, nrOfRecords,{ DBContainer container ->

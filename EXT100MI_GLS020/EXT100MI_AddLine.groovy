@@ -106,6 +106,16 @@ public class AddLine extends ExtendM3Transaction {
 			mi.error("L'api devrait être utilisé localement, DIVI obligatoire.")
 			return
 		}
+		
+		if(!utility.call("CheckUtil", "checkConoExist", database, cono)) {
+			mi.error("La company est inexistante.")
+			return
+		}
+		
+		if(!utility.call("CheckUtil", "checkDiviExist", database, cono, divi)) {
+			mi.error("La division est inexistante.")
+			return
+		}
 
 		if(rcno == null || rcno == 0) {
 			mi.error("Le numéro d'enregistrement est obligatoire.")
@@ -213,7 +223,7 @@ public class AddLine extends ExtendM3Transaction {
 			return
 		}
 
-		if(nrc2 == null || nrc3 == null || nrc3 == null || nrc5 == null || nrc6 == null || nrc7 == null) {
+		if(nrc2 == null || nrc3 == null || nrc4 == null || nrc5 == null || nrc6 == null || nrc7 == null) {
 			mi.error("Les code remplacement NRC doivent être à 0 ou 1")
 			return
 		}
@@ -225,12 +235,9 @@ public class AddLine extends ExtendM3Transaction {
 		DBContainer faaccbContainerForCheck = faaccbRecordForCheck.createContainer()
 		faaccbContainerForCheck.setInt("FBCONO", cono)
 		faaccbContainerForCheck.setString("FBDIVI", divi)
-		//faaccbContainerForCheck.setInt("FBRCNO", rcno)
 		
-		//int nrOfRecords = mi.getMaxRecords() <= 0 || mi.getMaxRecords() >= 10000 ? 10000: mi.getMaxRecords()
 		int nrOfRecords = 5000
 		faaccbRecordForCheck.readAll(faaccbContainerForCheck, 2, nrOfRecords,{ DBContainer container ->
-			//if(!container.get("FBRGLN").toString().equals(rgln.toString())) {
 			//FROM
 			fromRecordbfa1 = container.get("FBBFA1").toString().trim()
 			fromRecordbfa2 = container.get("FBBFA2").toString().trim()
@@ -499,10 +506,5 @@ public class AddLine extends ExtendM3Transaction {
 			mi.error("Enregistrement existe déjà.")
 			return
 		}
-
-
-
-
-
 	}
 }
