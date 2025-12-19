@@ -44,8 +44,6 @@ public class ListLines extends ExtendM3Transaction {
 		faaccbContainer.setInt("FBCONO", cono)
 		faaccbContainer.setString("FBDIVI", divi)
 		faaccbContainer.setInt("FBRCNO", rcno)
-
-
 		int nrOfRecords = 5000
 		faaccbRecord.readAll(faaccbContainer, 3, nrOfRecords,{ DBContainer container ->
 			mi.getOutData().put("CONO", cono.toString())
