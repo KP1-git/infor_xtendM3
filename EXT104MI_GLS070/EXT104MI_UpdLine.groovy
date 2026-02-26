@@ -1,11 +1,16 @@
-/**
- * README
- *
- * Name: EXT104MI.UpdLine
- * Description: Update a record from FGDISE
- * Date                         Changed By                    Description
- * 20250625                     a.ferre@hetic3.fr     		création
- */
+/****************************************************************************************
+ Extension Name: EXT104MI/UpdLine
+ Type: ExtendM3Transaction
+ Script Author: FERRE Adrien
+ Date: 26/02/2026
+ Description: List records FGDISE
+    
+ Revision History:
+ Name                    		Date             Version          Description of Changes
+ First creation FERRE Adrien 	26/02/2026       1.0              Creation 
+
+******************************************************************************************/
+
 public class UpdLine extends ExtendM3Transaction {
 	private final MIAPI mi
 	private final ProgramAPI program
@@ -13,6 +18,14 @@ public class UpdLine extends ExtendM3Transaction {
 	private final UtilityAPI utility
 	private final MICallerAPI miCaller
 
+	/*
+	 * Transaction EXT104MI/UpdLine Interface
+	 * @param mi - Infor MI Interface
+	 * @param database - Infor Database Interface
+	 * @param utility - Utility Interface
+	 * @program program - ProgramAPI Interface
+	 * @MICallerAPI - MICallerAPI Interface
+	 */
 	public UpdLine(MIAPI mi, DatabaseAPI database, UtilityAPI utility, ProgramAPI program, MICallerAPI miCaller, LoggerAPI logger) {
 		this.mi = mi
 		this.program = program
@@ -93,7 +106,7 @@ public class UpdLine extends ExtendM3Transaction {
 			return
 		}
 
-		if(!cflv.isBlank()) {
+		if (!cflv.isBlank() && cflv != "*") {
 			if (!cflv?.trim() || (cflv ==~ /\d{2}/ && cflv.toInteger() >= 0 && cflv.toInteger() <= 98)) {
 				if(!(cflv.toInteger() < bdlv)) {
 					mi.error("Valeur de CFLV invalide : '${cflv}' (doit être inférieur à BDLV")
@@ -103,7 +116,7 @@ public class UpdLine extends ExtendM3Transaction {
 			}
 		}
 
-		if(!ctlv.isBlank()) {
+		if(!ctlv.isBlank() && ctlv != "*") {
 			if (!ctlv?.trim() || (ctlv ==~ /\d{2}/ && ctlv.toInteger() >= 0 && ctlv.toInteger() <= 98)) {
 				if(!(ctlv.toInteger() < bdlv)) {
 					mi.error("Valeur de CTLV invalide : '${ctlv}' (doit être inférieur à BDLV")
@@ -114,13 +127,13 @@ public class UpdLine extends ExtendM3Transaction {
 		}
 
 		// Comparer uniquement si les deux valeurs sont renseignées (non nulles et non vides)
-		if (cflv?.trim() && ctlv?.trim()) {
+		if (cflv?.trim() && ctlv?.trim() && cflv != "*" && ctlv != "*" ) {
 			if (ctlv.toInteger() < cflv.toInteger()) {
 				mi.error("La valeur de CTLV (${ctlv}) ne peut pas être inférieure à celle de CFLV (${cflv})")
 			}
 		}
 
-		if(btab) {
+		if(btab.isBlank()) {
 			mi.error("table de base d'affectation est obligatoire")
 			return
 		}
@@ -166,7 +179,7 @@ public class UpdLine extends ExtendM3Transaction {
 
 		}
 
-		if(ttab) {
+		if(ttab.isBlank()) {
 			mi.error("table cible d'affectation est obligatoire")
 			return
 		}
@@ -175,7 +188,7 @@ public class UpdLine extends ExtendM3Transaction {
 		Integer bdtp = 0
 
 
-		DBAction fgdithRecord = database.table("FGDITH").index("00").selection("BZDIMT", "BZBDTP", "BZAETP").build()
+		DBAction fgdithRecord = database.table("FGDITH").index("00").selection("BZDIMT", "BZBDTP").build()
 		DBContainer fgdithContainer = fgdithRecord.createContainer()
 		fgdithContainer.setInt("BZCONO", cono)
 		fgdithContainer.setString("BZDIVI", divi)
@@ -211,19 +224,22 @@ public class UpdLine extends ExtendM3Transaction {
 
 		if(cabf == 2 || bun1 != 0 || !bve1.isBlank()) {
 
-			DBAction fbdudefRecord = database.table("FBDUDEF").index("00").build()
-			DBContainer fbdudefContainer = fbdudefRecord.createContainer()
-			fbdudefContainer.setInt("BDCONO", cono)
-			fbdudefContainer.setString("BDDIVI", divi)
-			fbdudefContainer.setInt("BDBUN1", bun1)
-			fbdudefContainer.setString("BDBVE1", bve1)
+			if(bun1 != null ) {
+				DBAction fbdudefRecord = database.table("FBUDEF").index("00").build()
+				DBContainer fbdudefContainer = fbdudefRecord.createContainer()
+				fbdudefContainer.setInt("BDCONO", cono)
+				fbdudefContainer.setString("BDDIVI", divi)
+				fbdudefContainer.setInt("BDBUNO", (int) bun1)
+				fbdudefContainer.setString("BDBVER", bve1)
 
 
-			if(!fbdudefRecord.read(fbdudefContainer)){
-				mi.error("Budget/version n'éxiste pas.")
-				return
+				if(!fbdudefRecord.read(fbdudefContainer)){
+					mi.error("Budget/version n'éxiste pas.")
+					return
+				}
 			}
 		}
+
 
 		if(casf < 0 || casf > 5) {
 			mi.error("Début de sélection du calcul doit être 1 valeur de 1 à 5")
@@ -252,7 +268,7 @@ public class UpdLine extends ExtendM3Transaction {
 			fgditdContainer.setInt("BECONO", cono)
 			fgditdContainer.setString("BEDIVI", divi)
 			fgditdContainer.setString("BETTAB", ttab)
-			
+
 			int nrOfRecords = mi.getMaxRecords() <= 0 || mi.getMaxRecords() >= 10000 ? 10000: mi.getMaxRecords()
 
 			fgditdRecord.readAll(fgditdContainer, 3, nrOfRecords,{ DBContainer container ->
@@ -280,18 +296,21 @@ public class UpdLine extends ExtendM3Transaction {
 		}
 
 		if(casf == 2 || bun2 != 0 || !bve2.isBlank()) {
-
-			DBAction fbdudefRecord_2 = database.table("FBDUDEF").index("00").build()
-			DBContainer fbdudefContainer_2 = fbdudefRecord_2.createContainer()
-			fbdudefContainer_2.setInt("BDCONO", cono)
-			fbdudefContainer_2.setString("BDDIVI", divi)
-			fbdudefContainer_2.setInt("BDBUN2", bun2)
-			fbdudefContainer_2.setString("BDBVE2", bve2)
+			if(bun2 != null ) {
 
 
-			if(!fbdudefRecord_2.read(fbdudefContainer_2)){
-				mi.error("Budget/version n'éxiste pas.")
-				return
+				DBAction fbdudefRecord_2 = database.table("FBUDEF").index("00").build()
+				DBContainer fbdudefContainer_2 = fbdudefRecord_2.createContainer()
+				fbdudefContainer_2.setInt("BDCONO", cono)
+				fbdudefContainer_2.setString("BDDIVI", divi)
+				fbdudefContainer_2.setInt("BDBUNO",  bun2)
+				fbdudefContainer_2.setString("BDBVE2", bve2)
+
+
+				if(!fbdudefRecord_2.read(fbdudefContainer_2)){
+					mi.error("Budget/version n'éxiste pas.")
+					return
+				}
 			}
 		}
 
@@ -318,12 +337,12 @@ public class UpdLine extends ExtendM3Transaction {
 				return
 			}
 		}
-		
+
 		DBAction fgdiseRecord = database.table("FGDISE").index("00").selection("BVCHNO").build()
 		DBContainer fgdiseContainer = fgdiseRecord.createContainer()
 		fgdiseContainer.setInt("BVCONO", cono)
 		fgdiseContainer.setString("BVDIVI", divi)
-		fgdiseContainer.setString("BVDTMP", divi)
+		fgdiseContainer.setString("BVDTMP", dtmp)
 		fgdiseContainer.setInt("BVDSPR", dspr)
 		fgdiseContainer.setInt("BVDELE", dele)
 
@@ -342,7 +361,7 @@ public class UpdLine extends ExtendM3Transaction {
 			updateRecord.set("BVBUN2", bun2)
 			updateRecord.setString("BVBVE2", bve2)
 			updateRecord.setString("BVRDUV", rduv)
-			
+
 			int CHNO = updateRecord.getInt("BVCHNO")
 			if(CHNO== 999) {CHNO = 0}
 			CHNO++

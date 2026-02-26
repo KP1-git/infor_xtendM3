@@ -1,11 +1,14 @@
-/**
- * README
- *
- * Name: EXT104MI.LstLines
- * Description: List records from FGDISE
- * Date                         Changed By                    Description
- * 20250625                     a.ferre@hetic3.fr     		création
- */
+/****************************************************************************************
+ Extension Name: EXT104MI/LstLines
+ Type: ExtendM3Transaction
+ Script Author: FERRE Adrien
+ Date: 26/02/2026
+ Description: List records FGDISE
+ Revision History:
+ Name                    		Date             Version          Description of Changes
+ First creation FERRE Adrien 	26/02/2026       1.0              Creation 
+ ******************************************************************************************/
+
 public class LstLines extends ExtendM3Transaction {
 	private final MIAPI mi
 	private final ProgramAPI program
@@ -13,7 +16,14 @@ public class LstLines extends ExtendM3Transaction {
 	private final UtilityAPI utility
 	private final MICallerAPI miCaller
 
-
+	/*
+	 * Transaction EXT104MI/LstLines Interface
+	 * @param mi - Infor MI Interface
+	 * @param database - Infor Database Interface
+	 * @param utility - Utility Interface
+	 * @program program - ProgramAPI Interface
+	 * @MICallerAPI - MICallerAPI Interface
+	 */
 	public LstLines(MIAPI mi, DatabaseAPI database, UtilityAPI utility, ProgramAPI program, MICallerAPI miCaller, LoggerAPI logger) {
 		this.mi = mi
 		this.program = program
@@ -27,7 +37,7 @@ public class LstLines extends ExtendM3Transaction {
 		String  divi = (mi.inData.get("DIVI") == null) ? "" : mi.inData.get("DIVI").trim()
 		String  dtmp = (mi.inData.get("DTMP") == null) ? "" : mi.inData.get("DTMP").trim()
 		Integer dspr = mi.in.get("DSPR")
-		
+
 		// Convertir l'entier en chaîne de caractères
 		String valeurStr = dspr.toString()
 
@@ -73,11 +83,11 @@ public class LstLines extends ExtendM3Transaction {
 		DBContainer fgdiseContainer = fgdiseRecord.createContainer()
 		fgdiseContainer.setInt("BVCONO", cono)
 		fgdiseContainer.setString("BVDIVI", divi)
-		fgdiseContainer.setString("BVDTMP", divi)
+		fgdiseContainer.setString("BVDTMP", dtmp)
 		fgdiseContainer.setInt("BVDSPR", dspr)
-		
+
 		int nrOfRecords = mi.getMaxRecords() <= 0 || mi.getMaxRecords() >= 10000? 10000: mi.getMaxRecords()
-		fgdiseRecord.readAll(fgdiseContainer, 2, nrOfRecords,{ DBContainer container ->
+		fgdiseRecord.readAll(fgdiseContainer, 4, nrOfRecords,{ DBContainer container ->
 			mi.getOutData().put("CONO", cono.toString())
 			mi.getOutData().put("DIVI", divi)
 			mi.getOutData().put("DTMP", container.getString("BVDTMP"))
@@ -97,13 +107,13 @@ public class LstLines extends ExtendM3Transaction {
 			mi.getOutData().put("BUN2", container.get("BVBUN2").toString())
 			mi.getOutData().put("BVE2", container.getString("BVBVE2"))
 			mi.getOutData().put("RDUV", container.getString("BVRDUV"))
-			
+
 			mi.getOutData().put("RGDT", container.get("BVRGDT").toString())
 			mi.getOutData().put("RGTM", container.get("BVRGTM").toString())
 			mi.getOutData().put("LMDT", container.get("BVLMDT").toString())
 			mi.getOutData().put("CHNO", container.get("BVCHNO").toString())
 			mi.getOutData().put("CHID", container.getString("BVCHID") )
-			
+
 			mi.write()
 		})
 

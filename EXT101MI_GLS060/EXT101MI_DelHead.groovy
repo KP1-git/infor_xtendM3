@@ -1,17 +1,30 @@
-/**
- * README
- *
- * Name: EXT101MI.DelHead
- * Description: Delete a record in FGDIBH
- * Date                         Changed By                    Description
- * 20250616                     a.ferre@hetic3.fr     		création
- */
+/****************************************************************************************
+ Extension Name: EXT101MI/DelHead
+ Type: ExtendM3Transaction
+ Script Author: FERRE Adrien
+ Date: 26/02/2026
+ Description: Delete record FGDIBH
+    
+ Revision History:
+ Name                    		Date             Version          Description of Changes
+ First creation FERRE Adrien 	26/02/2026       1.0              Creation 
+
+******************************************************************************************/
+
 public class DelHead extends ExtendM3Transaction {
 	private final MIAPI mi
 	private final ProgramAPI program
 	private final DatabaseAPI database
 	private final UtilityAPI utility
-
+	
+	/*
+	 * Transaction EXT101MI/DelHead Interface
+	 * @param mi - Infor MI Interface
+	 * @param database - Infor Database Interface
+	 * @param utility - Utility Interface
+	 * @program program - ProgramAPI Interface
+	 * @MICallerAPI - MICallerAPI Interface
+	 */
 	public DelHead(MIAPI mi, DatabaseAPI database, UtilityAPI utility, ProgramAPI program) {
 		this.mi = mi
 		this.program = program

@@ -1,11 +1,15 @@
-/**
- * README
- *
- * Name: EXT101MI.AddLine
- * Description: Add a record in FGDIBD
- * Date                         Changed By                    Description
- * 20250623                     a.ferre@hetic3.fr     		création.
- */
+/****************************************************************************************
+ Extension Name: EXT101MI/AddLine
+ Type: ExtendM3Transaction
+ Script Author: FERRE Adrien
+ Date: 26/02/2026
+ Description: Add record FGDIBD
+    
+ Revision History:
+ Name                    		Date             Version          Description of Changes
+ First creation FERRE Adrien 	26/02/2026       1.0              Creation 
+
+******************************************************************************************/
 public class AddLine extends ExtendM3Transaction {
 	private final MIAPI mi
 	private final ProgramAPI program
@@ -13,7 +17,14 @@ public class AddLine extends ExtendM3Transaction {
 	private final UtilityAPI utility
 	private final MICallerAPI miCaller
 
-
+	/*
+	 * Transaction EXT101MI/AddLine Interface
+	 * @param mi - Infor MI Interface
+	 * @param database - Infor Database Interface
+	 * @param utility - Utility Interface
+	 * @program program - ProgramAPI Interface
+	 * @MICallerAPI - MICallerAPI Interface
+	 */
 	public AddLine(MIAPI mi, DatabaseAPI database, UtilityAPI utility, ProgramAPI program, MICallerAPI miCaller) {
 		this.mi = mi
 		this.program = program
@@ -213,7 +224,6 @@ public class AddLine extends ExtendM3Transaction {
 		
 
 		fgdibdRecordForCheck.readAll(fgdibdContainerForCheck, 3, nrOfRecords,{ DBContainer container ->
-			//if(!container.get("BYBBLN").toString().equals(bbln.toString())) {
 				//FROM
 				fromRecordbfa1 = container.get("BYBFA1").toString().trim()
 				fromRecordbfa2 = container.get("BYBFA2").toString().trim()
