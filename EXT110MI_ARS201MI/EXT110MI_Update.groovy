@@ -7,6 +7,7 @@ import java.time.format.DateTimeFormatter
  * Description: Update RVDT and SMCD on customer invoice
  * Date                         Changed By                    Description
  * 20251027                     d.decosterd@hetic3.fr     		création
+ * 20260212                     d.decosterd@hetic3.fr     	Fix check invoice is paid: replace invoiceTotal < 1e-2 by Math.abs(invoiceTotal) < 1e-2
  */
 
 public class Update extends ExtendM3Transaction {
@@ -89,7 +90,7 @@ public class Update extends ExtendM3Transaction {
 			}
 		})
 
-		if( invoiceTotal < 1e-2) {
+		if( Math.abs(invoiceTotal) < 1e-2) {
 			// MSGID=AR20109 The invoice is paid
 			String errorMessage = message.getMessage("AR20109", [])
 			mi.error(errorMessage)
