@@ -1,17 +1,27 @@
-/**
- * README
- *
- * Name: EXT102MI.ListHead
- * Description: list records in FGDITH
- * Date                         Changed By                    Description
- * 20250624                     d.decosterd@hetic3.fr     		création
- */
+/****************************************************************************************
+ Extension Name: EXT102MI/ListHead
+ Type: ExtendM3Transaction
+ Script Author:d.decosterd@hetic3.fr
+ Date: 2025-06-24
+ Description:
+ * List records in FGDITH
+ Revision History:
+ Name                    Date             Version          Description of Changes
+ d.decosterd@hetic3.fr   2025-06-24       1.0              création
+ ******************************************************************************************/
 public class ListHead extends ExtendM3Transaction {
 	private final MIAPI mi
 	private final DatabaseAPI database
 	private final ProgramAPI program
 	private final UtilityAPI utility
 
+	/*
+	 * Transaction EXT102MI/ListHead
+	 * @param mi - Infor MI Interface
+	 * @param database - Infor Database Interface
+	 * @param program - Infor Program Interface
+	 * @param utility - Infor Utility Interface
+	 */
 	public ListHead(MIAPI mi, DatabaseAPI database, ProgramAPI program, UtilityAPI utility) {
 		this.mi = mi
 		this.database = database
@@ -38,7 +48,7 @@ public class ListHead extends ExtendM3Transaction {
 		DBContainer fgdithContainer = fgdithRecord.createContainer()
 		fgdithContainer.setInt("BZCONO", cono)
 		fgdithContainer.setString("BZDIVI", divi)
-		
+
 		int nrOfRecords = mi.getMaxRecords() <= 0 || mi.getMaxRecords() >= 10000? 10000: mi.getMaxRecords()
 		fgdithRecord.readAll(fgdithContainer, 2,nrOfRecords, { DBContainer container ->
 			mi.getOutData().put("CONO", cono.toString())
@@ -54,7 +64,7 @@ public class ListHead extends ExtendM3Transaction {
 			mi.getOutData().put("LMDT", container.getInt("BZLMDT").toString())
 			mi.getOutData().put("CHNO", container.getInt("BZCHNO").toString())
 			mi.getOutData().put("CHID", container.getString("BZCHID"))
-			
+
 			mi.write()
 		})
 	}

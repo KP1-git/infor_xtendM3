@@ -1,11 +1,14 @@
-/**
- * README
- *
- * Name: EXT102MI.UpdLine
- * Description: Update a record in FGDITD
- * Date                         Changed By                    Description
- * 20250624                     a.ferre@hetic3.fr     		création
- */
+/****************************************************************************************
+ Extension Name: EXT102MI/UpdLine
+ Type: ExtendM3Transaction
+ Script Author: a.ferre@hetic3.fr
+ Date: 2025-07-01
+ Description:
+ * Update a record in FGDITD
+ Revision History:
+ Name                    Date             Version          Description of Changes
+ a.ferre@hetic3.fr       2025-07-01       1.0              création
+ ******************************************************************************************/
 public class UpdLine extends ExtendM3Transaction {
 	private final MIAPI mi
 	private final DatabaseAPI database
@@ -13,18 +16,25 @@ public class UpdLine extends ExtendM3Transaction {
 	private final UtilityAPI utility
 	private final MICallerAPI miCaller
 	private final MessageAPI message
-	private final LoggerAPI logger
-	
-	public UpdLine(MIAPI mi, DatabaseAPI database, ProgramAPI program, UtilityAPI utility, MICallerAPI miCaller, MessageAPI message, LoggerAPI logger) {
-	 this.mi = mi
+
+	/*
+	 * Transaction EXT102MI/UpdLine
+	 * @param mi - Infor MI Interface
+	 * @param database - Infor Database Interface
+	 * @param program - Infor Program Interface
+	 * @param utility - Infor Utility Interface
+	 * @param miCaller - Infor MiCaller Interface
+	 * @param message - Infor Message Interface
+	 */
+	public UpdLine(MIAPI mi, DatabaseAPI database, ProgramAPI program, UtilityAPI utility, MICallerAPI miCaller, MessageAPI message) {
+		this.mi = mi
 		this.database = database
 		this.program = program
 		this.utility = utility
 		this.miCaller = miCaller
 		this.message = message
-		this.logger = logger
 	}
-	
+
 	public void main() {
 		Integer cono = mi.in.get("CONO")
 		String divi = (mi.inData.get("DIVI") == null) ? "" : mi.inData.get("DIVI").trim()
@@ -43,8 +53,8 @@ public class UpdLine extends ExtendM3Transaction {
 		Float dipe = mi.in.get("DIPE")
 		Float dirs = mi.in.get("DIRS")
 		String stab = (mi.inData.get("STAB") == null) ? "" : mi.inData.get("STAB").trim()
-		
-		
+
+
 		if(cono == null) {
 			mi.error("La CONO est obligatoire.")
 			return
@@ -84,7 +94,7 @@ public class UpdLine extends ExtendM3Transaction {
 			mi.error("Type ligne de reventilation "+bltp+" est invalide.")
 			return
 		}
-		
+
 		DBAction fgdithRecord = database.table("FGDITH").index("00").selection("BZDIMT","BZBDTP").build()
 		DBContainer fgdithContainer = fgdithRecord.createContainer()
 		fgdithContainer.setInt("BZCONO", cono)
@@ -376,7 +386,7 @@ public class UpdLine extends ExtendM3Transaction {
 		fgditdContainer.setString("BEDIVI", divi)
 		fgditdContainer.setString("BETTAB", ttab)
 		fgditdContainer.setInt("BEBBLN", bbln)
-		
+
 		boolean updatable = fgditdRecord.readLock(fgditdContainer, { LockedResult updateRecoord ->
 			updateRecoord.set("BEBLTP", bltp)
 			updateRecoord.setString("BETX40", tx40)
@@ -500,7 +510,7 @@ public class UpdLine extends ExtendM3Transaction {
 	 */
 	private boolean isValidAccountingItem(String i, int cono, String divi, String tfa1, int ach, int acr, String tfa, int cmtp, String fieldLabel ) {
 		if(ach == 1) {
-			return true;
+			return true
 		}
 
 		if( acr ==1 || acr == 2|| acr == 3|| acr == 4) {
@@ -578,4 +588,4 @@ public class UpdLine extends ExtendM3Transaction {
 		}
 		return true
 	}
-  }
+}

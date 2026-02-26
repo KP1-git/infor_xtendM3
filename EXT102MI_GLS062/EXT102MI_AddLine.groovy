@@ -1,11 +1,14 @@
-/**
- * README
- *
- * Name: EXT102MI.AddLine
- * Description: Add a record in FGDITD
- * Date                         Changed By                    Description
- * 20250624                     d.decosterd@hetic3.fr     		création
- */
+/****************************************************************************************
+ Extension Name: EXT102MI/AddLine
+ Type: ExtendM3Transaction
+ Script Author:d.decosterd@hetic3.fr
+ Date: 2025-06-24
+ Description:
+ * Add a record in FGDITD
+ Revision History:
+ Name                    Date             Version          Description of Changes
+ d.decosterd@hetic3.fr   2025-06-24       1.0              création
+ ******************************************************************************************/
 public class AddLine extends ExtendM3Transaction {
 	private final MIAPI mi
 	private final DatabaseAPI database
@@ -13,16 +16,23 @@ public class AddLine extends ExtendM3Transaction {
 	private final UtilityAPI utility
 	private final MICallerAPI miCaller
 	private final MessageAPI message
-	private final LoggerAPI logger
 
-	public AddLine(MIAPI mi, DatabaseAPI database, ProgramAPI program, UtilityAPI utility, MICallerAPI miCaller, MessageAPI message, LoggerAPI logger) {
+	/*
+	 * Transaction EXT102MI/AddLine
+	 * @param mi - Infor MI Interface
+	 * @param database - Infor Database Interface
+	 * @param program - Infor Program Interface
+	 * @param utility - Infor Utility Interface
+	 * @param miCaller - Infor MiCaller Interface
+	 * @param message - Infor Message Interface
+	 */
+	public AddLine(MIAPI mi, DatabaseAPI database, ProgramAPI program, UtilityAPI utility, MICallerAPI miCaller, MessageAPI message) {
 		this.mi = mi
 		this.database = database
 		this.program = program
 		this.utility = utility
 		this.miCaller = miCaller
 		this.message = message
-		this.logger = logger
 	}
 
 	public void main() {
@@ -497,7 +507,7 @@ public class AddLine extends ExtendM3Transaction {
 	 */
 	private boolean isValidAccountingItem(String i, int cono, String divi, String tfa1, int ach, int acr, String tfa, int cmtp, String fieldLabel ) {
 		if(ach == 1) {
-			return true;
+			return true
 		}
 
 		if( acr ==1 || acr == 2|| acr == 3|| acr == 4) {
