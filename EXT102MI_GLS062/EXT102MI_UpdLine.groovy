@@ -1,11 +1,14 @@
-/**
- * README
- *
- * Name: EXT102MI.UpdLine
- * Description: Update a record in FGDITD
- * Date                         Changed By                    Description
- * 20250624                     a.ferre@hetic3.fr     		création
- */
+/****************************************************************************************
+ Extension Name: EXT102MI/UpdLine
+ Type: ExtendM3Transaction
+ Script Author: a.ferre@hetic3.fr
+ Date: 2025-07-01
+ Description:
+ * Update a record in FGDITD
+ Revision History:
+ Name                    Date             Version          Description of Changes
+ a.ferre@hetic3.fr       2025-07-01       1.0              création
+ ******************************************************************************************/
 public class UpdLine extends ExtendM3Transaction {
 	private final MIAPI mi
 	private final DatabaseAPI database
@@ -13,18 +16,25 @@ public class UpdLine extends ExtendM3Transaction {
 	private final UtilityAPI utility
 	private final MICallerAPI miCaller
 	private final MessageAPI message
-	private final LoggerAPI logger
-	
-	public UpdLine(MIAPI mi, DatabaseAPI database, ProgramAPI program, UtilityAPI utility, MICallerAPI miCaller, MessageAPI message, LoggerAPI logger) {
-	 this.mi = mi
+
+	/*
+	 * Transaction EXT102MI/UpdLine
+	 * @param mi - Infor MI Interface
+	 * @param database - Infor Database Interface
+	 * @param program - Infor Program Interface
+	 * @param utility - Infor Utility Interface
+	 * @param miCaller - Infor MiCaller Interface
+	 * @param message - Infor Message Interface
+	 */
+	public UpdLine(MIAPI mi, DatabaseAPI database, ProgramAPI program, UtilityAPI utility, MICallerAPI miCaller, MessageAPI message) {
+		this.mi = mi
 		this.database = database
 		this.program = program
 		this.utility = utility
 		this.miCaller = miCaller
 		this.message = message
-		this.logger = logger
 	}
-	
+
 	public void main() {
 		Integer cono = mi.in.get("CONO")
 		String divi = (mi.inData.get("DIVI") == null) ? "" : mi.inData.get("DIVI").trim()
@@ -43,8 +53,8 @@ public class UpdLine extends ExtendM3Transaction {
 		Float dipe = mi.in.get("DIPE")
 		Float dirs = mi.in.get("DIRS")
 		String stab = (mi.inData.get("STAB") == null) ? "" : mi.inData.get("STAB").trim()
-		
-		
+
+
 		if(cono == null) {
 			mi.error("La CONO est obligatoire.")
 			return
@@ -84,7 +94,7 @@ public class UpdLine extends ExtendM3Transaction {
 			mi.error("Type ligne de reventilation "+bltp+" est invalide.")
 			return
 		}
-		
+
 		DBAction fgdithRecord = database.table("FGDITH").index("00").selection("BZDIMT","BZBDTP").build()
 		DBContainer fgdithContainer = fgdithRecord.createContainer()
 		fgdithContainer.setInt("BZCONO", cono)
@@ -138,7 +148,6 @@ public class UpdLine extends ExtendM3Transaction {
 					mi.error("Offset division is only allowed for line type 1")
 					return
 				}
-				logger.info("DIVI:"+program.LDAZD.get("DIVI"))
 				DBAction cmfadvRecord = database.table("CMFADV").index("00").build()
 				DBContainer cmfadvContainer = cmfadvRecord.createContainer()
 				cmfadvContainer.setInt("M1CONO", cono)
@@ -152,12 +161,8 @@ public class UpdLine extends ExtendM3Transaction {
 		}
 
 		String diviToUse = !ofdi.isBlank() ? ofdi : divi
-		/*if(!tfa1.isBlank() && !isValidTfa1(cono, diviToUse, tfa1)) {
-		 mi.error("La valeur du segment comptable 1 est incorrecte.")
-		 return
-		 }*/
 
-		if(!tfa1.trim().equals("=")&& !tfa1.trim().equals("+") || bdtp == 7) {
+		if(!tfa1.trim().equals("=") && !tfa1.trim().equals("+") || bdtp == 7) {
 			int a1ch = 0
 			int a2ch = tfa2.trim().equals("=") || tfa2.trim().equals("+") ? 1 : 0
 			int a3ch = tfa3.trim().equals("=") || tfa3.trim().equals("+") ? 1 : 0
@@ -179,7 +184,7 @@ public class UpdLine extends ExtendM3Transaction {
 					return
 				}
 				if(!stab.isBlank()) {
-					DBAction fgdishRecord = database.table("FGDISH").index("00").selection("BFTX40","BFRDRI","BFBDTP").build()
+					DBAction fgdishRecord = database.table("FGDISH").index("00").selection("BFRDRI","BFAIH1","BFAIH2","BFAIH3","BFAIH4","BFAIH5","BFAIH6","BFAIH7").build()
 					DBContainer fgdishContainer = fgdishRecord.createContainer()
 					fgdishContainer.setInt("BFCONO", cono)
 					fgdishContainer.setString("BFDIVI", divi)
@@ -192,7 +197,7 @@ public class UpdLine extends ExtendM3Transaction {
 						mi.error(errorMessage)
 						return
 					}
-					if(!fgdishContainer.getString("BFRDRI").isBlank()&& fgdishContainer.getInt("BFBDTP") != 4) {
+					if(!fgdishContainer.getString("BFRDRI").isBlank()&& bdtp != 4) {
 						String errorMessage = message.getMessage("GL06313",[stab])
 						mi.error(errorMessage)
 						return
@@ -343,13 +348,13 @@ public class UpdLine extends ExtendM3Transaction {
 				int numberOfDiggits = utility.call("NumberUtil", "getNumberOfDigits", dirs)
 
 				if(numberOfDiggits > 13) {
-					mi.error("relative allocation percentage ne peux avoir plus de trois chiffres avant la virgule.")
+					mi.error("relative allocation percentage ne peux avoir plus de treize chiffres avant la virgule.")
 					return
 				}
 
 				int numberOfDecimal = utility.call("NumberUtil", "getNumberOfDecimals", dirs)
 				if(numberOfDecimal > 2) {
-					mi.error("relative allocation percentage ne peux avoir plus de trois chiffres après la virgule.")
+					mi.error("relative allocation percentage ne peux avoir plus de deux chiffres après la virgule.")
 					return
 				}
 
@@ -361,13 +366,13 @@ public class UpdLine extends ExtendM3Transaction {
 			}
 
 			if(bdtp == 2 || bdtp == 6 ) {
-				if(dirs == null) {
+				if(dirs == null  || dirs < 0) {
 					String errorMessage = message.getMessage("WDI5102", [])
 					mi.error(errorMessage)
 					return
 				}
 			}else {
-				if(dirs != null) {
+				if(dirs != null  && dirs > 0) {
 					String errorMessage = message.getMessage("GL06304", [])
 					mi.error(errorMessage)
 					return
@@ -381,7 +386,7 @@ public class UpdLine extends ExtendM3Transaction {
 		fgditdContainer.setString("BEDIVI", divi)
 		fgditdContainer.setString("BETTAB", ttab)
 		fgditdContainer.setInt("BEBBLN", bbln)
-		
+
 		boolean updatable = fgditdRecord.readLock(fgditdContainer, { LockedResult updateRecoord ->
 			updateRecoord.set("BEBLTP", bltp)
 			updateRecoord.setString("BETX40", tx40)
@@ -412,6 +417,7 @@ public class UpdLine extends ExtendM3Transaction {
 			return
 		}
 	}
+
 	/**
 	 * Check validity of the value of tfa1
 	 * @param cono
@@ -460,38 +466,38 @@ public class UpdLine extends ExtendM3Transaction {
 		}
 
 		if(!readfchacc) {
-			String errorMessage = message.getMessage("XAC0103",[tfa1])
+			String errorMessage = message.getMessage("XAC0103",["COMPTE",tfa1])
 			mi.error(errorMessage)
 			return false
 		}
 
 		if(fchaccContainer.getInt("EALCCD") == 1) {
-			String errorMessage = message.getMessage("XAI0101",[tfa1])
+			String errorMessage = message.getMessage("XAI0101",["COMPTE",tfa1])
 			mi.error(errorMessage)
 			return false
 		}
 
-		boolean isValid = isValidAccountingItem("2", cono, divi, tfa1, a2ch, fchaccContainer.getInt("EAACR2"), tfa2, cmtp)
+		boolean isValid = isValidAccountingItem("2", cono, divi, tfa1, a2ch, fchaccContainer.getInt("EAACR2"), tfa2, cmtp, "ETABLISS")
 		if(!isValid)
 			return false
 
-		isValid = isValidAccountingItem("3", cono, divi, tfa1, a3ch, fchaccContainer.getInt("EAACR3"), tfa3, cmtp)
+		isValid = isValidAccountingItem("3", cono, divi, tfa1, a3ch, fchaccContainer.getInt("EAACR3"), tfa3, cmtp, "CCOUT")
 		if(!isValid)
 			return false
 
-		isValid = isValidAccountingItem("4", cono, divi, tfa1, a4ch, fchaccContainer.getInt("EAACR4"), tfa4, cmtp)
+		isValid = isValidAccountingItem("4", cono, divi, tfa1, a4ch, fchaccContainer.getInt("EAACR4"), tfa4, cmtp, "PRODUIT")
 		if(!isValid)
 			return false
 
-		isValid = isValidAccountingItem("5", cono, divi, tfa1, a5ch, fchaccContainer.getInt("EAACR5"), tfa5, cmtp)
+		isValid = isValidAccountingItem("5", cono, divi, tfa1, a5ch, fchaccContainer.getInt("EAACR5"), tfa5, cmtp, "AUXILIAIRE")
 		if(!isValid)
 			return false
 
-		isValid = isValidAccountingItem("6", cono, divi, tfa1, a6ch, fchaccContainer.getInt("EAACR6"), tfa6, cmtp)
+		isValid = isValidAccountingItem("6", cono, divi, tfa1, a6ch, fchaccContainer.getInt("EAACR6"), tfa6, cmtp, "PROJET")
 		if(!isValid)
 			return false
 
-		isValid = isValidAccountingItem("7", cono, divi, tfa1, a7ch, fchaccContainer.getInt("EAACR7"), tfa7, cmtp)
+		isValid = isValidAccountingItem("7", cono, divi, tfa1, a7ch, fchaccContainer.getInt("EAACR7"), tfa7, cmtp, "EL PROJET")
 		if(!isValid)
 			return false
 
@@ -502,17 +508,21 @@ public class UpdLine extends ExtendM3Transaction {
 	 * check accounting item i like in the batch CCHKAIT
 	 * @return true if checks for accounting item i are validated
 	 */
-	private boolean isValidAccountingItem(String i, int cono, String divi, String tfa1, int ach, int acr, String tfa, int cmtp) {
-		if(ach == 0 &&( acr ==1 || acr == 2|| acr == 3|| acr == 4)) {
+	private boolean isValidAccountingItem(String i, int cono, String divi, String tfa1, int ach, int acr, String tfa, int cmtp, String fieldLabel ) {
+		if(ach == 1) {
+			return true
+		}
+
+		if( acr ==1 || acr == 2|| acr == 3|| acr == 4) {
 			if(tfa.isBlank()) {
-				String errorMessage = message.getMessage("XAC0102",[tfa])
+				String errorMessage = message.getMessage("XAC0102",[fieldLabel, tfa])
 				mi.error(errorMessage)
 				return false
 			}
 		}
 
 		if(acr == 5 && !tfa.isBlank()) {
-			String errorMessage = message.getMessage("XAC0101",[tfa])
+			String errorMessage = message.getMessage("XAC0101",[fieldLabel, tfa])
 			mi.error(errorMessage)
 			return false
 		}
@@ -521,7 +531,7 @@ public class UpdLine extends ExtendM3Transaction {
 		DBContainer fchaccContainer = fchaccRecord.createContainer()
 		fchaccContainer.setInt("EACONO", cono)
 		fchaccContainer.setString("EADIVI", divi)
-		fchaccContainer.setInt("EAAITP", 2)
+		fchaccContainer.setInt("EAAITP", Integer.parseInt(i))
 		fchaccContainer.setString("EAAITM", tfa)
 
 		boolean readfchacc = fchaccRecord.read(fchaccContainer)
@@ -531,13 +541,13 @@ public class UpdLine extends ExtendM3Transaction {
 		}
 
 		if(!readfchacc && (acr == 3 || acr == 4)) {
-			String errorMessage = message.getMessage("XAC0103",[tfa])
+			String errorMessage = message.getMessage("XAC0103",[fieldLabel, tfa])
 			mi.error(errorMessage)
 			return false
 		}
 
 		if(!readfchacc && !tfa.isBlank() && (acr == 7 || acr == 8)) {
-			String errorMessage = message.getMessage("XAC0103",[tfa])
+			String errorMessage = message.getMessage("XAC0103",[fieldLabel, tfa])
 			mi.error(errorMessage)
 			return false
 		}
@@ -547,7 +557,7 @@ public class UpdLine extends ExtendM3Transaction {
 		}
 
 		if(fchaccContainer.getInt("EALCCD")== 1) {
-			String errorMessage = message.getMessage("XAI0101",[tfa])
+			String errorMessage = message.getMessage("XAI0101",[fieldLabel, tfa])
 			mi.error(errorMessage)
 			return false
 		}
@@ -571,11 +581,11 @@ public class UpdLine extends ExtendM3Transaction {
 
 			boolean readFchchk = fchchkRecord.readAll(fchchkContainer, 7, 1,{ })
 			if(!readFchchk) {
-				String errorMessage = message.getMessage("XAI0106",[tfa])
+				String errorMessage = message.getMessage("XAI0106",[fieldLabel, tfa])
 				mi.error(errorMessage)
 				return false
 			}
 		}
 		return true
 	}
-  }
+}

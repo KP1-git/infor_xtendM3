@@ -1,17 +1,27 @@
-/**
- * README
- *
- * Name: EXT102MI.UpdHead
- * Description: Update a record in FGDITH
- * Date                         Changed By                    Description
- * 20250624                     d.decosterd@hetic3.fr     		création
- */
+/****************************************************************************************
+ Extension Name: EXT102MI/UpdHead
+ Type: ExtendM3Transaction
+ Script Author:d.decosterd@hetic3.fr
+ Date: 2025-06-24
+ Description:
+ * Update a record in FGDITH
+ Revision History:
+ Name                    Date             Version          Description of Changes
+ d.decosterd@hetic3.fr   2025-06-24       1.0              création
+ ******************************************************************************************/
 public class UpdHead extends ExtendM3Transaction {
 	private final MIAPI mi
 	private final DatabaseAPI database
 	private final ProgramAPI program
 	private final UtilityAPI utility
 
+	/*
+	 * Transaction EXT102MI/UpdHead
+	 * @param mi - Infor MI Interface
+	 * @param database - Infor Database Interface
+	 * @param program - Infor Program Interface
+	 * @param utility - Infor Utility Interface
+	 */
 	public UpdHead(MIAPI mi, DatabaseAPI database, ProgramAPI program, UtilityAPI utility) {
 		this.mi = mi
 		this.database = database

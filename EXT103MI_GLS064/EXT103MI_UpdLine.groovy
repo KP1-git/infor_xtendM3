@@ -1,11 +1,16 @@
-/**
- * README
- *
- * Name: EXT103MI.UpdLine
- * Description: Update a record in FGDISD
- * Date                         Changed By                    Description
- * 20250620                     a.ferre@hetic3.fr     		création
- */
+/****************************************************************************************
+ Extension Name: EXT103MI/UpdLine
+ Type: ExtendM3Transaction
+ Script Author: FERRE Adrien
+ Date: 26/02/2026
+ Description: update record FGDISD
+    
+ Revision History:
+ Name                    		Date             Version          Description of Changes
+ First creation FERRE Adrien 	26/02/2026       1.0              Creation 
+
+******************************************************************************************/
+
 public class UpdLine extends ExtendM3Transaction {
 	private final MIAPI mi
 	private final ProgramAPI program
@@ -13,6 +18,14 @@ public class UpdLine extends ExtendM3Transaction {
 	private final UtilityAPI utility
 	private final MICallerAPI miCaller
 
+	/*
+	 * Transaction EXT103MI/UpdLine Interface
+	 * @param mi - Infor MI Interface
+	 * @param database - Infor Database Interface
+	 * @param utility - Utility Interface
+	 * @program program - ProgramAPI Interface
+	 * @MICallerAPI - MICallerAPI Interface
+	 */
 	public UpdLine(MIAPI mi, DatabaseAPI database, UtilityAPI utility, ProgramAPI program, MICallerAPI miCaller) {
 		this.mi = mi
 		this.program = program
