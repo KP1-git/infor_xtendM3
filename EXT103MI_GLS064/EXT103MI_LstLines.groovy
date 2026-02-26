@@ -1,11 +1,16 @@
-/**
- * README
- *
- * Name: EXT103MI.LstLines
- * Description: List records in FGDISD
- * Date                         Changed By                    Description
- * 20250623                     a.ferre@hetic3.fr     		création
- */
+/****************************************************************************************
+ Extension Name: EXT103MI/LstLines
+ Type: ExtendM3Transaction
+ Script Author: FERRE Adrien
+ Date: 26/02/2026
+ Description: List records FGDISD
+    
+ Revision History:
+ Name                    		Date             Version          Description of Changes
+ First creation FERRE Adrien 	26/02/2026       1.0              Creation 
+
+******************************************************************************************/
+
 public class LstLines extends ExtendM3Transaction {
 	private final MIAPI mi
 	private final ProgramAPI program
@@ -13,6 +18,14 @@ public class LstLines extends ExtendM3Transaction {
 	private final UtilityAPI utility
 	private final MICallerAPI miCaller
 
+	/*
+	 * Transaction EXT103MI/LstLines Interface
+	 * @param mi - Infor MI Interface
+	 * @param database - Infor Database Interface
+	 * @param utility - Utility Interface
+	 * @program program - ProgramAPI Interface
+	 * @MICallerAPI - MICallerAPI Interface
+	 */
 	public LstLines(MIAPI mi, DatabaseAPI database, UtilityAPI utility, ProgramAPI program, MICallerAPI miCaller) {
 		this.mi = mi
 		this.program = program
@@ -59,7 +72,7 @@ public class LstLines extends ExtendM3Transaction {
 		fgdisdContainer.setString("BGSTAB", stab)
 		
 		int nrOfRecords = mi.getMaxRecords() <= 0 || mi.getMaxRecords() >= 10000? 10000: mi.getMaxRecords()
-		fgdisdRecord.readAll(fgdisdContainer, 2, nrOfRecords,{ DBContainer container ->
+		fgdisdRecord.readAll(fgdisdContainer, 3, nrOfRecords,{ DBContainer container ->
 			mi.getOutData().put("CONO", cono.toString())
 			mi.getOutData().put("DIVI", divi)
 			mi.getOutData().put("STAB", container.getString("BGSTAB"))

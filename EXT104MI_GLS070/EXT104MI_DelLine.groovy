@@ -1,11 +1,16 @@
-/**
- * README
- *
- * Name: EXT104MI.DelLine
- * Description: Delete a record from FGDISE
- * Date                         Changed By                    Description
- * 20250625                     a.ferre@hetic3.fr     		création
- */
+/****************************************************************************************
+ Extension Name: EXT104MI/DelLine
+ Type: ExtendM3Transaction
+ Script Author: FERRE Adrien
+ Date: 26/02/2026
+ Description: Delete record FGDISE
+    
+ Revision History:
+ Name                    		Date             Version          Description of Changes
+ First creation FERRE Adrien 	26/02/2026       1.0              Creation 
+
+******************************************************************************************/
+
 public class DelLine extends ExtendM3Transaction {
 	private final MIAPI mi
 	private final ProgramAPI program
@@ -13,6 +18,14 @@ public class DelLine extends ExtendM3Transaction {
 	private final UtilityAPI utility
 	private final MICallerAPI miCaller
 	
+	/*
+	 * Transaction EXT104MI/DelLine Interface
+	 * @param mi - Infor MI Interface
+	 * @param database - Infor Database Interface
+	 * @param utility - Utility Interface
+	 * @program program - ProgramAPI Interface
+	 * @MICallerAPI - MICallerAPI Interface
+	 */
 	public DelLine(MIAPI mi, DatabaseAPI database, UtilityAPI utility, ProgramAPI program, MICallerAPI miCaller, LoggerAPI logger) {
 	  this.mi = mi
 		this.program = program
@@ -78,7 +91,7 @@ public class DelLine extends ExtendM3Transaction {
 		DBContainer fgdiseContainer = fgdiseRecord.createContainer()
 		fgdiseContainer.setInt("BVCONO", cono)
 		fgdiseContainer.setString("BVDIVI", divi)
-		fgdiseContainer.setString("BVDTMP", divi)
+		fgdiseContainer.setString("BVDTMP", dtmp)
 		fgdiseContainer.setInt("BVDSPR", dspr)
 		fgdiseContainer.setInt("BVDELE", dele)
 		
