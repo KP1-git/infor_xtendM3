@@ -7,7 +7,8 @@
     
  Revision History:
  Name                    		Date             Version          Description of Changes
- First creation FERRE Adrien 	26/02/2026       1.0              Creation 
+ First creation FERRE Adrien 	26/02/2026       1.0              Creation
+ FERRE Adrien   				17/03/2026       1.1              Use lowerCamelCase for variable CHNO  
 
 ******************************************************************************************/
 
@@ -100,12 +101,12 @@ public class UpdHead extends ExtendM3Transaction {
 			updateRecord.set("BXRDRT", rdrt)
 			updateRecord.set("BXRDSR", rdsr)
 			
-			int CHNO = updateRecord.getInt("BXCHNO")
-			if(CHNO== 999) {CHNO = 0}
-			CHNO++
+			int chno = updateRecord.getInt("BXCHNO")
+			if(chno== 999) {chno}
+			chno++
 			updateRecord.set("BXLMDT", (Integer) utility.call("DateUtil", "currentDateY8AsInt"))
 			updateRecord.set("BXCHID", program.getUser())
-			updateRecord.setInt("BXCHNO", CHNO)
+			updateRecord.setInt("BXCHNO", chno)
 			updateRecord.update()
 		})
 
