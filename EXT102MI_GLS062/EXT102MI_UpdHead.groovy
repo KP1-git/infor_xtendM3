@@ -8,6 +8,7 @@
  Revision History:
  Name                    Date             Version          Description of Changes
  d.decosterd@hetic3.fr   2025-06-24       1.0              création
+ d.decosterd@hetic3.fr   2026-03-10       1.1              Use lowerCamelCase for variable CHNO
  ******************************************************************************************/
 public class UpdHead extends ExtendM3Transaction {
 	private final MIAPI mi
@@ -101,12 +102,12 @@ public class UpdHead extends ExtendM3Transaction {
 				updateRecord.setInt("BZBDTP", bdtp)
 			if(bdpc != null)
 				updateRecord.set("BZBDPC", bdpc)
-			int CHNO = updateRecord.getInt("BZCHNO")
-			if(CHNO== 999) {CHNO = 0}
-			CHNO++
+			int chno = updateRecord.getInt("BZCHNO")
+			if(chno== 999) {chno = 0}
+			chno++
 			updateRecord.set("BZLMDT", (Integer) utility.call("DateUtil", "currentDateY8AsInt"))
 			updateRecord.set("BZCHID", program.getUser())
-			updateRecord.setInt("BZCHNO", CHNO)
+			updateRecord.setInt("BZCHNO", chno)
 			updateRecord.update()
 		})
 

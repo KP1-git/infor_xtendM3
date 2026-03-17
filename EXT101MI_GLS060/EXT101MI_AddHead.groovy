@@ -7,7 +7,8 @@
     
  Revision History:
  Name                    		Date             Version          Description of Changes
- First creation FERRE Adrien 	26/02/2026       1.0              Creation 
+ First creation FERRE Adrien 	26/02/2026       1.0              Creation
+ FERRE Adrien   				17/03/2026       1.1              Check if charAt(88) != null to avoid NullPointerException
 
 ******************************************************************************************/
 
@@ -122,9 +123,8 @@ public class AddHead extends ExtendM3Transaction {
 	/**
 	 /**
 	 * return parm 210 from CAS900
-	 * @param cono
-	 * @param bjno
-	 * @return true if no error.
+	 * @param divi
+	 * @return Numeric value or 0 if error
 	 */
 	private int getParm(String divi) {
 		int result = 0
@@ -138,7 +138,10 @@ public class AddHead extends ExtendM3Transaction {
 			parm = response.PARM
 		})
 		
-		
-		return Character.getNumericValue(parm.charAt(88))
+		if(parm.charAt(88) != null) {
+			return Character.getNumericValue(parm.charAt(88))
+		}else {
+			return result
+		}
 	}
 }
