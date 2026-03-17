@@ -1,11 +1,15 @@
-/**
- * README
- *
- * Name: EXT102MI.AddLine
- * Description: Add a record in FGDITD
- * Date                         Changed By                    Description
- * 20250624                     d.decosterd@hetic3.fr     		création
- */
+/****************************************************************************************
+ Extension Name: EXT102MI/AddLine
+ Type: ExtendM3Transaction
+ Script Author:d.decosterd@hetic3.fr
+ Date: 2025-06-24
+ Description:
+ * Add a record in FGDITD
+ Revision History:
+ Name                    Date             Version          Description of Changes
+ d.decosterd@hetic3.fr   2025-06-24       1.0              création
+ d.decosterd@hetic3.fr   2026-03-10       1.1              declare only one instance of errorMessage variable by function, remove unused method isValidTfa1
+ ******************************************************************************************/
 public class AddLine extends ExtendM3Transaction {
 	private final MIAPI mi
 	private final DatabaseAPI database
@@ -13,16 +17,23 @@ public class AddLine extends ExtendM3Transaction {
 	private final UtilityAPI utility
 	private final MICallerAPI miCaller
 	private final MessageAPI message
-	private final LoggerAPI logger
 
-	public AddLine(MIAPI mi, DatabaseAPI database, ProgramAPI program, UtilityAPI utility, MICallerAPI miCaller, MessageAPI message, LoggerAPI logger) {
+	/*
+	 * Transaction EXT102MI/AddLine
+	 * @param mi - Infor MI Interface
+	 * @param database - Infor Database Interface
+	 * @param program - Infor Program Interface
+	 * @param utility - Infor Utility Interface
+	 * @param miCaller - Infor MiCaller Interface
+	 * @param message - Infor Message Interface
+	 */
+	public AddLine(MIAPI mi, DatabaseAPI database, ProgramAPI program, UtilityAPI utility, MICallerAPI miCaller, MessageAPI message) {
 		this.mi = mi
 		this.database = database
 		this.program = program
 		this.utility = utility
 		this.miCaller = miCaller
 		this.message = message
-		this.logger = logger
 	}
 
 	public void main() {
@@ -167,6 +178,8 @@ public class AddLine extends ExtendM3Transaction {
 			}
 		}
 
+		String errorMessage;
+
 		if(bdtp != 7) {
 			if(bdtp == 3 || bdtp == 4) {
 				if(bltp ==1 && stab.isBlank()) {
@@ -183,49 +196,49 @@ public class AddLine extends ExtendM3Transaction {
 					boolean readFgdish = fgdishRecord.read(fgdishContainer)
 					//   - Check record
 					if(!readFgdish) {
-						String errorMessage = message.getMessage("WSTAB03",[stab])
+						errorMessage = message.getMessage("WSTAB03",[stab])
 						mi.error(errorMessage)
 						return
 					}
 					if(!fgdishContainer.getString("BFRDRI").isBlank()&& bdtp != 4) {
-						String errorMessage = message.getMessage("GL06313",[stab])
+						errorMessage = message.getMessage("GL06313",[stab])
 						mi.error(errorMessage)
 						return
 					}
 
 					//   Dimension mark'+' in select table must correspond to code here
 					if(fgdishContainer.getChar("BFAIH1") == '+' && !tfa1.trim().equals("+") || tfa1.trim().equals("+") && fgdishContainer.getChar("BFAIH1") != '+') {
-						String errorMessage = message.getMessage("GL06307", ["Accounting dimension 1"])
+						errorMessage = message.getMessage("GL06307", ["Accounting dimension 1"])
 						mi.error(errorMessage)
 						return
 					}
 					if(fgdishContainer.getChar("BFAIH2") == '+' && !tfa2.trim().equals("+") || tfa2.trim().equals("+") && fgdishContainer.getChar("BFAIH2") != '+') {
-						String errorMessage = message.getMessage("GL06307", ["Accounting dimension 2"])
+						errorMessage = message.getMessage("GL06307", ["Accounting dimension 2"])
 						mi.error(errorMessage)
 						return
 					}
 					if(fgdishContainer.getChar("BFAIH3") == '+' && !tfa3.trim().equals("+") || tfa3.trim().equals("+") && fgdishContainer.getChar("BFAIH3") != '+') {
-						String errorMessage = message.getMessage("GL06307", ["Accounting dimension 3"])
+						errorMessage = message.getMessage("GL06307", ["Accounting dimension 3"])
 						mi.error(errorMessage)
 						return
 					}
 					if(fgdishContainer.getChar("BFAIH4") == '+' && !tfa4.trim().equals("+") || tfa4.trim().equals("+") && fgdishContainer.getChar("BFAIH4") != '+') {
-						String errorMessage = message.getMessage("GL06307", ["Accounting dimension 4"])
+						errorMessage = message.getMessage("GL06307", ["Accounting dimension 4"])
 						mi.error(errorMessage)
 						return
 					}
 					if(fgdishContainer.getChar("BFAIH5") == '+' && !tfa5.trim().equals("+") || tfa5.trim().equals("+") && fgdishContainer.getChar("BFAIH5") != '+') {
-						String errorMessage = message.getMessage("GL06307", ["Accounting dimension 5"])
+						errorMessage = message.getMessage("GL06307", ["Accounting dimension 5"])
 						mi.error(errorMessage)
 						return
 					}
 					if(fgdishContainer.getChar("BFAIH6") == '+' && !tfa6.trim().equals("+") || tfa6.trim().equals("+") && fgdishContainer.getChar("BFAIH6") != '+') {
-						String errorMessage = message.getMessage("GL06307", ["Accounting dimension 6"])
+						errorMessage = message.getMessage("GL06307", ["Accounting dimension 6"])
 						mi.error(errorMessage)
 						return
 					}
 					if(fgdishContainer.getChar("BFAIH7") == '+' && !tfa7.trim().equals("+") || tfa7.trim().equals("+") && fgdishContainer.getChar("BFAIH7") != '+') {
-						String errorMessage = message.getMessage("GL06307", ["Accounting dimension 7"])
+						errorMessage = message.getMessage("GL06307", ["Accounting dimension 7"])
 						mi.error(errorMessage)
 						return
 					}
@@ -237,69 +250,69 @@ public class AddLine extends ExtendM3Transaction {
 				}
 			}
 			if(tfa1.trim().equals("+") && stab.isBlank()) {
-				String errorMessage = message.getMessage("GL06308", ["Accounting dimension 1"])
+				errorMessage = message.getMessage("GL06308", ["Accounting dimension 1"])
 				mi.error(errorMessage)
 				return
 			}
 			if(tfa2.trim().equals("+") && stab.isBlank()) {
-				String errorMessage = message.getMessage("GL06308", ["Accounting dimension 2"])
+				errorMessage = message.getMessage("GL06308", ["Accounting dimension 2"])
 				mi.error(errorMessage)
 				return
 			}
 			if(tfa3.trim().equals("+") && stab.isBlank()) {
-				String errorMessage = message.getMessage("GL06308", ["Accounting dimension 3"])
+				errorMessage = message.getMessage("GL06308", ["Accounting dimension 3"])
 				mi.error(errorMessage)
 				return
 			}
 			if(tfa4.trim().equals("+") && stab.isBlank()) {
-				String errorMessage = message.getMessage("GL06308", ["Accounting dimension 4"])
+				errorMessage = message.getMessage("GL06308", ["Accounting dimension 4"])
 				mi.error(errorMessage)
 				return
 			}
 			if(tfa5.trim().equals("+") && stab.isBlank()) {
-				String errorMessage = message.getMessage("GL06308", ["Accounting dimension 5"])
+				errorMessage = message.getMessage("GL06308", ["Accounting dimension 5"])
 				mi.error(errorMessage)
 				return
 			}
 			if(tfa6.trim().equals("+") && stab.isBlank()) {
-				String errorMessage = message.getMessage("GL06308", ["Accounting dimension 6"])
+				errorMessage = message.getMessage("GL06308", ["Accounting dimension 6"])
 				mi.error(errorMessage)
 				return
 			}
 			if(tfa7.trim().equals("+") && stab.isBlank()) {
-				String errorMessage = message.getMessage("GL06308", ["Accounting dimension 7"])
+				errorMessage = message.getMessage("GL06308", ["Accounting dimension 7"])
 				mi.error(errorMessage)
 				return
 			}
 		}
 
 		if(tfa2.isBlank() && accDim2Prevented) {
-			String errorMessage = message.getMessage("S_00971", ["2"])
+			errorMessage = message.getMessage("S_00971", ["2"])
 			mi.error(errorMessage)
 			return
 		}
 		if(tfa3.isBlank() && accDim2Prevented) {
-			String errorMessage = message.getMessage("S_00971", ["3"])
+			errorMessage = message.getMessage("S_00971", ["3"])
 			mi.error(errorMessage)
 			return
 		}
 		if(tfa4.isBlank() && accDim2Prevented) {
-			String errorMessage = message.getMessage("S_00971", ["4"])
+			errorMessage = message.getMessage("S_00971", ["4"])
 			mi.error(errorMessage)
 			return
 		}
 		if(tfa5.isBlank() && accDim2Prevented) {
-			String errorMessage = message.getMessage("S_00971", ["5"])
+			errorMessage = message.getMessage("S_00971", ["5"])
 			mi.error(errorMessage)
 			return
 		}
 		if(tfa6.isBlank() && accDim2Prevented) {
-			String errorMessage = message.getMessage("S_00971", ["6"])
+			errorMessage = message.getMessage("S_00971", ["6"])
 			mi.error(errorMessage)
 			return
 		}
 		if(tfa7.isBlank() && accDim2Prevented) {
-			String errorMessage = message.getMessage("S_00971", ["7"])
+			errorMessage = message.getMessage("S_00971", ["7"])
 			mi.error(errorMessage)
 			return
 		}
@@ -320,14 +333,14 @@ public class AddLine extends ExtendM3Transaction {
 			}
 
 			if(dipe < 0) {
-				String errorMessage = message.getMessage("GL06301", [dipe.toString()])
+				errorMessage = message.getMessage("GL06301", [dipe.toString()])
 				mi.error(errorMessage)
 				return
 			}
 		}
 
 		if((bltp == 1 && bdtp != 2 && bdtp != 6 || bdtp == 7) && dipe == null) {
-			String errorMessage = message.getMessage("WDI5102", [])
+			errorMessage = message.getMessage("WDI5102", [])
 			mi.error(errorMessage)
 			return
 		}
@@ -349,7 +362,7 @@ public class AddLine extends ExtendM3Transaction {
 				}
 
 				if(dirs < 0) {
-					String errorMessage = message.getMessage("GL06302", [dirs.toString()])
+					errorMessage = message.getMessage("GL06302", [dirs.toString()])
 					mi.error(errorMessage)
 					return
 				}
@@ -357,13 +370,13 @@ public class AddLine extends ExtendM3Transaction {
 
 			if(bdtp == 2 || bdtp == 6 ) {
 				if(dirs == null || dirs < 0 ) {
-					String errorMessage = message.getMessage("WDI5102", [])
+					errorMessage = message.getMessage("WDI5102", [])
 					mi.error(errorMessage)
 					return
 				}
 			}else {
 				if(dirs != null && dirs > 0) {
-					String errorMessage = message.getMessage("GL06304", [])
+					errorMessage = message.getMessage("GL06304", [])
 					mi.error(errorMessage)
 					return
 				}
@@ -406,29 +419,6 @@ public class AddLine extends ExtendM3Transaction {
 	}
 
 	/**
-	 * Check validity of the value of tfa1
-	 * @param cono
-	 * @param divi
-	 * @param tfa1
-	 * @return true if valid
-	 */
-	private boolean isValidTfa1(int cono, String divi, String tfa1) {
-		DBAction fpseudRecord = database.table("FPSEUD").index("00").selection("AIT1").build()
-		DBContainer fpseudContainer = fpseudRecord.createContainer()
-		fpseudContainer.setInt("EUCONO", cono)
-		fpseudContainer.setString("EUDIVI", divi)
-		fpseudContainer.setString("EUPSTM",tfa1)
-
-		boolean read = fpseudRecord.read(fpseudContainer)
-		if(!read) {
-			fpseudContainer.clear("EUDIVI")
-			read = fpseudRecord.read(fpseudContainer)
-		}
-
-		return read
-	}
-
-	/**
 	 * check accounting items like in the batch CCHKAIT
 	 * @return true if all checks are validated
 	 */
@@ -452,14 +442,16 @@ public class AddLine extends ExtendM3Transaction {
 			readfchacc = fchaccRecord.read(fchaccContainer)
 		}
 
+		String errorMessage;
+
 		if(!readfchacc) {
-			String errorMessage = message.getMessage("XAC0103",["COMPTE",tfa1])
+			errorMessage = message.getMessage("XAC0103",["COMPTE",tfa1])
 			mi.error(errorMessage)
 			return false
 		}
 
 		if(fchaccContainer.getInt("EALCCD") == 1) {
-			String errorMessage = message.getMessage("XAI0101",["COMPTE",tfa1])
+			errorMessage = message.getMessage("XAI0101",["COMPTE",tfa1])
 			mi.error(errorMessage)
 			return false
 		}
@@ -497,19 +489,21 @@ public class AddLine extends ExtendM3Transaction {
 	 */
 	private boolean isValidAccountingItem(String i, int cono, String divi, String tfa1, int ach, int acr, String tfa, int cmtp, String fieldLabel ) {
 		if(ach == 1) {
-			return true;
+			return true
 		}
+
+		String errorMessage;
 
 		if( acr ==1 || acr == 2|| acr == 3|| acr == 4) {
 			if(tfa.isBlank()) {
-				String errorMessage = message.getMessage("XAC0102",[fieldLabel, tfa])
+				errorMessage = message.getMessage("XAC0102",[fieldLabel, tfa])
 				mi.error(errorMessage)
 				return false
 			}
 		}
 
 		if(acr == 5 && !tfa.isBlank()) {
-			String errorMessage = message.getMessage("XAC0101",[fieldLabel, tfa])
+			errorMessage = message.getMessage("XAC0101",[fieldLabel, tfa])
 			mi.error(errorMessage)
 			return false
 		}
@@ -528,13 +522,13 @@ public class AddLine extends ExtendM3Transaction {
 		}
 
 		if(!readfchacc && (acr == 3 || acr == 4)) {
-			String errorMessage = message.getMessage("XAC0103",[fieldLabel, tfa])
+			errorMessage = message.getMessage("XAC0103",[fieldLabel, tfa])
 			mi.error(errorMessage)
 			return false
 		}
 
 		if(!readfchacc && !tfa.isBlank() && (acr == 7 || acr == 8)) {
-			String errorMessage = message.getMessage("XAC0103",[fieldLabel, tfa])
+			errorMessage = message.getMessage("XAC0103",[fieldLabel, tfa])
 			mi.error(errorMessage)
 			return false
 		}
@@ -544,7 +538,7 @@ public class AddLine extends ExtendM3Transaction {
 		}
 
 		if(fchaccContainer.getInt("EALCCD")== 1) {
-			String errorMessage = message.getMessage("XAI0101",[fieldLabel, tfa])
+			errorMessage = message.getMessage("XAI0101",[fieldLabel, tfa])
 			mi.error(errorMessage)
 			return false
 		}
@@ -568,7 +562,7 @@ public class AddLine extends ExtendM3Transaction {
 
 			boolean readFchchk = fchchkRecord.readAll(fchchkContainer, 7, 1,{ })
 			if(!readFchchk) {
-				String errorMessage = message.getMessage("XAI0106",[fieldLabel, tfa])
+				errorMessage = message.getMessage("XAI0106",[fieldLabel, tfa])
 				mi.error(errorMessage)
 				return false
 			}
