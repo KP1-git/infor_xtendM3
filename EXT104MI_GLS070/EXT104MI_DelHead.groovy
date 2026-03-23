@@ -8,7 +8,7 @@
  Revision History:
  Name                    		Date             Version          Description of Changes
  First creation FERRE Adrien 	26/02/2026       1.0              Creation 
-
+ d.decosterd                    23/03/2026       1.1              Add missing return after some mi.error.
 ******************************************************************************************/
 
 public class DelHead extends ExtendM3Transaction {
@@ -75,11 +75,13 @@ public class DelHead extends ExtendM3Transaction {
 		// Vérification
 		if (!(valeurStr ==~ /^\d{6}$/)) {
 			mi.error("Valeur pas au bon format : doit contenir exactement 6 chiffres (AAAAMM)")
+			return
 		}
 
 		int mois = valeurStr[4..5].toInteger()
 		if (!(mois in 1..12)) {
 			mi.error("Valeur pas au bon format : les deux derniers chiffres doivent représenter un mois entre 01 et 12")
+			return
 		}
 
 

@@ -8,7 +8,7 @@
  Revision History:
  Name                    		Date             Version          Description of Changes
  First creation FERRE Adrien 	26/02/2026       1.0              Creation 
-
+ d.decosterd                    23/03/2026       1.1              Add missing return after some mi.error, replace def by List<String>, use rdri insteadof divi for CARDRI value and use CamelCase for CHNO
 ******************************************************************************************/
 
 public class UpdHead extends ExtendM3Transaction {
@@ -49,7 +49,7 @@ public class UpdHead extends ExtendM3Transaction {
 		String  aih7 = (mi.inData.get("AIH7") == null) ? " " : mi.inData.get("AIH7")
 		String  rdri = (mi.inData.get("RDRI") == null) ? "" : mi.inData.get("RDRI").trim()
 
-		def aihList = [aih1, aih2, aih3, aih4, aih5, aih6, aih7]
+		List<String> aihList = [aih1, aih2, aih3, aih4, aih5, aih6, aih7]
 
 		if(cono == null) {
 			mi.error("La CONO est obligatoire.")
@@ -80,11 +80,13 @@ public class UpdHead extends ExtendM3Transaction {
 		aihList.eachWithIndex { value, index ->
 			if (!(value?.trim() == "" || value == "+")) {
 				mi.error("Valeur invalide pour aih${index + 1} : '${value}'")
+				return
 			}
 		}
 
 		if (!aihList.any { it == "+" }) {
 			mi.error("Aucune des variables aih1 à aih7 ne contient '+'")
+			return
 		}
 
 		if(!rdri.isBlank()) {
@@ -92,7 +94,7 @@ public class UpdHead extends ExtendM3Transaction {
 			DBContainer fcavdfContainer = fcavdfRecord.createContainer()
 			fcavdfContainer.setInt("CACONO", cono)
 			fcavdfContainer.setString("CADIVI", divi)
-			fcavdfContainer.setString("CARDRI", divi)
+			fcavdfContainer.setString("CARDRI", rdri)
 			if(!fcavdfRecord.read(fcavdfContainer)){
 				mi.error("RDRI n'éxiste pas.")
 				return
@@ -117,12 +119,12 @@ public class UpdHead extends ExtendM3Transaction {
 			updateRecord.setChar("BFAIH7", aih7.toCharacter())
 			updateRecord.setString("BFRDRI", rdri)
 			
-			int CHNO = updateRecord.getInt("BFCHNO")
-			if(CHNO== 999) {CHNO = 0}
-			CHNO++
+			int chno = updateRecord.getInt("BFCHNO")
+			if(chno== 999) {chno = 0}
+			chno++
 			updateRecord.set("BFLMDT", (Integer) utility.call("DateUtil", "currentDateY8AsInt"))
 			updateRecord.set("BFCHID", program.getUser())
-			updateRecord.setInt("BFCHNO", CHNO)
+			updateRecord.setInt("BFCHNO", chno)
 			updateRecord.update()
 		})
 

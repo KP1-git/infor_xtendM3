@@ -8,7 +8,7 @@
  Revision History:
  Name                    		Date             Version          Description of Changes
  First creation FERRE Adrien 	26/02/2026       1.0              Creation 
-
+ d.decosterd                    23/03/2026       1.1              Rename CHNO in CamelCase
 ******************************************************************************************/
 
 public class UpdLine extends ExtendM3Transaction {
@@ -258,12 +258,12 @@ public class UpdLine extends ExtendM3Transaction {
 			updateRecord.setString("BGOBT2", obt2)
 			updateRecord.setString("BGOBT3", obt3)
 
-			int CHNO = updateRecord.getInt("BGCHNO")
-			if(CHNO== 999) {CHNO = 0}
-			CHNO++
+			int chno = updateRecord.getInt("BGCHNO")
+			if(chno== 999) {chno = 0}
+			chno++
 			updateRecord.set("BGLMDT", (Integer) utility.call("DateUtil", "currentDateY8AsInt"))
 			updateRecord.set("BGCHID", program.getUser())
-			updateRecord.setInt("BGCHNO", CHNO)
+			updateRecord.setInt("BGCHNO", chno)
 			updateRecord.update()
 		})
 

@@ -8,7 +8,7 @@
  Revision History:
  Name                    		Date             Version          Description of Changes
  First creation FERRE Adrien 	26/02/2026       1.0              Creation 
-
+ d.decosterd                    23/03/2026       1.1              replace obf2 by obf3 in the comparison with xxobt3
 ******************************************************************************************/
 
 public class AddLine extends ExtendM3Transaction {
@@ -222,7 +222,7 @@ public class AddLine extends ExtendM3Transaction {
 			return
 		}
 		
-		if (obf2.compareTo(xxobt3) > 0) {
+		if (obf3.compareTo(xxobt3) > 0) {
 			mi.error("La valeur From OBF3 est supérieur a la veleur TO OBT3.")
 			return
 		}

@@ -8,7 +8,7 @@
  Revision History:
  Name                    		Date             Version          Description of Changes
  First creation FERRE Adrien 	26/02/2026       1.0              Creation 
-
+ d.decosterd                    23/03/2026       1.1              Remove unused LoggerAPI from constructor, add missing return after some mi.error.
 ******************************************************************************************/
 
 public class DelLine extends ExtendM3Transaction {
@@ -26,7 +26,7 @@ public class DelLine extends ExtendM3Transaction {
 	 * @program program - ProgramAPI Interface
 	 * @MICallerAPI - MICallerAPI Interface
 	 */
-	public DelLine(MIAPI mi, DatabaseAPI database, UtilityAPI utility, ProgramAPI program, MICallerAPI miCaller, LoggerAPI logger) {
+	public DelLine(MIAPI mi, DatabaseAPI database, UtilityAPI utility, ProgramAPI program, MICallerAPI miCaller) {
 	  this.mi = mi
 		this.program = program
 		this.database = database
@@ -75,11 +75,13 @@ public class DelLine extends ExtendM3Transaction {
 		// Vérification
 		if (!(valeurStr ==~ /^\d{6}$/)) {
 			mi.error("Valeur pas au bon format : doit contenir exactement 6 chiffres (AAAAMM)")
+			return
 		}
 
 		int mois = valeurStr[4..5].toInteger()
 		if (!(mois in 1..12)) {
 			mi.error("Valeur pas au bon format : les deux derniers chiffres doivent représenter un mois entre 01 et 12")
+			return
 		}
 
 		if(dele == 0 || dele == null) {
