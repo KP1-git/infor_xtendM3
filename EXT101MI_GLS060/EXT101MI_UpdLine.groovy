@@ -7,7 +7,8 @@
     
  Revision History:
  Name                    		Date             Version          Description of Changes
- First creation FERRE Adrien 	26/02/2026       1.0              Creation 
+ First creation FERRE Adrien 	26/02/2026       1.0              Creation
+ FERRE Adrien   				17/03/2026       1.1              Replace def with the String data type, remove unused variable
 
 ******************************************************************************************/
 
@@ -68,7 +69,6 @@ public class UpdLine extends ExtendM3Transaction {
 		String  fromRecordbfa5 = ""
 		String  fromRecordbfa6 = ""
 		String  fromRecordbfa7 = ""
-		String  fromRecordtdiv = ""
 		String  fromRecordbta1 = ""
 		String  fromRecordbta2 = ""
 		String  fromRecordbta3 = ""
@@ -205,7 +205,7 @@ public class UpdLine extends ExtendM3Transaction {
 
 
 		(2..7).each { i ->
-			def bfaValue = "bfa$i"
+			String bfaValue = "bfa$i"
 			if (bfaValue?.isBlank() && getParm(divi, i) == 1) {
 				mi.error("Le segment comptable ${i} n'est pas autorisé au cumul CRS750 ")
 				return
@@ -433,12 +433,12 @@ public class UpdLine extends ExtendM3Transaction {
 			updateRecoord.setString("BYOBT3", obt3)
 
 
-			int CHNO = updateRecoord.getInt("BYCHNO")
-			if(CHNO== 999) {CHNO = 0}
-			CHNO++
+			int chno = updateRecoord.getInt("BYCHNO")
+			if(chno== 999) {chno = 0}
+			chno++
 			updateRecoord.set("BYLMDT", (Integer) utility.call("DateUtil", "currentDateY8AsInt"))
 			updateRecoord.set("BYCHID", program.getUser())
-			updateRecoord.setInt("BYCHNO", CHNO)
+			updateRecoord.setInt("BYCHNO", chno)
 			updateRecoord.update()
 
 		})

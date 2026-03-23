@@ -7,7 +7,8 @@
     
  Revision History:
  Name                    		Date             Version          Description of Changes
- First creation FERRE Adrien 	26/02/2026       1.0              Creation 
+ First creation FERRE Adrien 	26/02/2026       1.0              Creation
+ FERRE Adrien   				17/03/2026       1.1              Remove duplicated line
 
 ******************************************************************************************/
 
@@ -92,7 +93,6 @@ public class LstLines extends ExtendM3Transaction {
 			mi.getOutData().put("BTA4", container.getString("BYBTA4"))
 			mi.getOutData().put("BTA5", container.getString("BYBTA5"))
 			mi.getOutData().put("BTA6", container.getString("BYBTA6"))
-			mi.getOutData().put("BTA7", container.getString("BYBTA7"))
 			mi.getOutData().put("BTA7", container.getString("BYBTA7"))
 			mi.getOutData().put("OBF1", container.getString("BYOBF1"))
 			mi.getOutData().put("OBF2", container.getString("BYOBF2"))
