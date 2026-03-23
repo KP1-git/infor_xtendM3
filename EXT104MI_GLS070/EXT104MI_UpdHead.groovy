@@ -77,11 +77,13 @@ public class UpdHead extends ExtendM3Transaction {
 		// Vérification
 		if (!(valeurStr ==~ /^\d{6}$/)) {
 			mi.error("Valeur pas au bon format : doit contenir exactement 6 chiffres (AAAAMM)")
+			return
 		}
 
 		int mois = valeurStr[4..5].toInteger()
 		if (!(mois in 1..12)) {
 			mi.error("Valeur pas au bon format : les deux derniers chiffres doivent représenter un mois entre 01 et 12")
+			return
 		}
 
 		if(tx40.isBlank()) {
@@ -109,12 +111,12 @@ public class UpdHead extends ExtendM3Transaction {
 			updateRecord.set("BUATTP", attp)
 
 			
-			int CHNO = updateRecord.getInt("BUCHNO")
-			if(CHNO== 999) {CHNO = 0}
-			CHNO++
+			int chno = updateRecord.getInt("BUCHNO")
+			if(chno== 999) {chno = 0}
+			chno++
 			updateRecord.set("BULMDT", (Integer) utility.call("DateUtil", "currentDateY8AsInt"))
 			updateRecord.set("BUCHID", program.getUser())
-			updateRecord.setInt("BUCHNO", CHNO)
+			updateRecord.setInt("BUCHNO", chno)
 			updateRecord.update()
 		})
 

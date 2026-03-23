@@ -8,7 +8,7 @@
  Revision History:
  Name                    		Date             Version          Description of Changes
  First creation FERRE Adrien 	26/02/2026       1.0              Creation 
-
+ d.decosterd                    23/03/2026       1.1              Add missing return after some mi.error, rename fbdudefRecord_2 to fbdudefRecord2 and fbdudefContainer_2 to fbdudefContainer2 
 ******************************************************************************************/
 
 public class AddLine extends ExtendM3Transaction {
@@ -92,11 +92,13 @@ public class AddLine extends ExtendM3Transaction {
 		// Vérification
 		if (!(valeurStr ==~ /^\d{6}$/)) {
 			mi.error("Valeur pas au bon format : doit contenir exactement 6 chiffres (AAAAMM)")
+			return
 		}
 
 		int mois = valeurStr[4..5].toInteger()
 		if (!(mois in 1..12)) {
 			mi.error("Valeur pas au bon format : les deux derniers chiffres doivent représenter un mois entre 01 et 12")
+			return
 		}
 
 		if(dele == 0 || dele == null) {
@@ -116,10 +118,12 @@ public class AddLine extends ExtendM3Transaction {
 
 				if (!(cflv.toInteger() < bdlv)) {
 					mi.error("Valeur de CFLV invalide : '${cflv}' (doit être inférieur à BDLV)")
+					return
 				}
 
 			} else {
 				mi.error("Valeur de CFLV invalide : '${cflv}' (doit être vide, '*', ou entre '00' et '98')")
+				return
 			}
 		}
 
@@ -127,9 +131,11 @@ public class AddLine extends ExtendM3Transaction {
 			if (!ctlv?.trim() || (ctlv ==~ /\d{2}/ && ctlv.toInteger() >= 0 && ctlv.toInteger() <= 98)) {
 				if(!(ctlv.toInteger() < bdlv)) {
 					mi.error("Valeur de CTLV invalide : '${ctlv}' (doit être inférieur à BDLV")
+					return
 				}
 			} else {
 				mi.error("Valeur de CTLV invalide : '${ctlv}' (doit être vide ou entre '00' et '98')")
+				return
 			}
 		}
 
@@ -137,6 +143,7 @@ public class AddLine extends ExtendM3Transaction {
 		if (cflv?.trim() && ctlv?.trim() && cflv != "*" && ctlv != "*" ) {
 			if (ctlv.toInteger() < cflv.toInteger()) {
 				mi.error("La valeur de CTLV (${ctlv}) ne peut pas être inférieure à celle de CFLV (${cflv})")
+				return
 			}
 		}
 
@@ -307,15 +314,15 @@ public class AddLine extends ExtendM3Transaction {
 
 			if(bun2 != null ) {
 
-				DBAction fbdudefRecord_2 = database.table("FBUDEF").index("00").build()
-				DBContainer fbdudefContainer_2 = fbdudefRecord_2.createContainer()
-				fbdudefContainer_2.setInt("BDCONO", cono)
-				fbdudefContainer_2.setString("BDDIVI", divi)
-				fbdudefContainer_2.setInt("BDBUNO", bun2)
-				fbdudefContainer_2.setString("BDBVE2", bve2)
+				DBAction fbdudefRecord2 = database.table("FBUDEF").index("00").build()
+				DBContainer fbdudefContainer2 = fbdudefRecord2.createContainer()
+				fbdudefContainer2.setInt("BDCONO", cono)
+				fbdudefContainer2.setString("BDDIVI", divi)
+				fbdudefContainer2.setInt("BDBUNO", bun2)
+				fbdudefContainer2.setString("BDBVE2", bve2)
 
 
-				if(!fbdudefRecord_2.read(fbdudefContainer_2)){
+				if(!fbdudefRecord2.read(fbdudefContainer2)){
 					mi.error("Budget/version n'éxiste pas.")
 					return
 				}

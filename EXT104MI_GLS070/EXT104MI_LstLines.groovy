@@ -7,6 +7,7 @@
  Revision History:
  Name                    		Date             Version          Description of Changes
  First creation FERRE Adrien 	26/02/2026       1.0              Creation 
+ d.decosterd                    23/03/2026       1.1              Remove unused LoggerAPI in constructor.
  ******************************************************************************************/
 
 public class LstLines extends ExtendM3Transaction {
@@ -24,7 +25,7 @@ public class LstLines extends ExtendM3Transaction {
 	 * @program program - ProgramAPI Interface
 	 * @MICallerAPI - MICallerAPI Interface
 	 */
-	public LstLines(MIAPI mi, DatabaseAPI database, UtilityAPI utility, ProgramAPI program, MICallerAPI miCaller, LoggerAPI logger) {
+	public LstLines(MIAPI mi, DatabaseAPI database, UtilityAPI utility, ProgramAPI program, MICallerAPI miCaller) {
 		this.mi = mi
 		this.program = program
 		this.database = database
