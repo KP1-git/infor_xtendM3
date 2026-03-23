@@ -8,7 +8,7 @@
  Revision History:
  Name                    		Date             Version          Description of Changes
  First creation FERRE Adrien 	26/02/2026       1.0              Creation 
-
+ d.Decosterd                    23/03/2026       1.1              Add missing return after some mi.error, Rename CHNO to chno.
 ******************************************************************************************/
 
 public class UpdHead extends ExtendM3Transaction {
